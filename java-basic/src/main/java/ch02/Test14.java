@@ -13,6 +13,7 @@ public class Test14 {
     System.out.printf("%1$tS\n", today); //초
     
     
+    
     //년-월-일 시:분:초 출력
     
     System.out.printf("%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS", today );
