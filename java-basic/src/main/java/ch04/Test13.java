@@ -1,24 +1,33 @@
 package ch04;
-//논리연산자 &&, || vs &, |
+//비트연산
+//
 
 public class Test13 {
   public static void main(String[] args) {
-    //괄호연산
-    int a = 5;
-    int r = 10 / (a = 2);
+ 
+    int a = 0xca; // 0000 0000 0000 0000 0000 0000 1100 1010
+    int b = 0x66; // 0000 0000 0000 0000 0000 0000 0110 0110
     
-    System.out.printf("%d, %d\n", a, r);
-    // r = 10 / (a = 2)
-    // r = 10 / (a값에 2를 저장한 뒤 리턴함)-> a = 2
-    // r = 10 / 2 = 5
+    System.out.println(a & b);
+            // 0000 0000 0000 0000 0000 0000 0100 0010 -> 둘 다 1이여야 1
+    System.out.println(a | b);
+            // 0000 0000 0000 0000 0000 0000 1110 1110 -> 둘 중 하나가 1이면 1
+    System.out.println(a ^ b);
+           // 0000 0000 0000 0000 0000 0000 1010 1100
+    System.out.println(~a);
+           // 1111 1111 1111 1111 1111 1111 0011 0101
     
-    boolean b1 = true;
-    boolean b2 = false && (b1 = false);
-    System.out.printf("b1=%b, b2=%b\n", b1, b2); //true, false
+    //&활용: 특정 값을 차단하며 특정 값만 통과시킬 때
+    int data = 0b1111_1111_1111_1111;
+    System.out.println(Integer.toBinaryString(data & 0b0000_1111_1100_0000));
+      //Integer.toBinaryString-> 2진수를 문자열로 변환시켜줌
+    //기대값: 0000 1111 1100 0000
     
-    b1 = true;
-    b2 = false & (b1 = false);
-    System.out.printf("b1=%b, b2=%b\n", b1, b2); //false, false
+    int pixel = 0x003f4478; //->RGB값 중 특정한 색(빨강이라 가정)
+    System.out.println(pixel & 0x0000ffff); //RGB값 중 pixel값을 빼서
+    
+    
+    
     
   }
 }

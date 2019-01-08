@@ -1,46 +1,70 @@
 package bitcamp.lms;
+import java.util.*;
+import java.sql.Date;
 
 public class App {
 
-    public static void main(String[] args) {
-      java.io.InputStream in = System.in;
-      java.util.Scanner keyboard = new java.util.Scanner(in);
-      
+  public static void main(String[] args) {
+    Scanner kb = new Scanner(System.in);
+
+    int[] no = new int[200];
+    String[] title = new String[200];
+    String[] contents = new String[200];
+    Date[] start = new Date[200];
+    Date[] end = new Date[200];
+    int[] totalHours = new int[200];
+    int[] dayHours = new int[200];
+    int a = 0;
+
+
+    while (true) {
+
       System.out.println("번호? ");
-      
-      int number = keyboard.nextInt();
-      keyboard.nextLine();
-      
+      no[a] = Integer.parseInt(kb.nextLine());
+
       System.out.println("수업명? ");
-      String className = keyboard.nextLine();
-      
-      System.out.println("수업내용? ");
-      String classC = keyboard.nextLine();
-      
+      title[a] = kb.nextLine();
+
+      System.out.println("설명? ");
+      contents[a] = kb.nextLine();
+
       System.out.println("시작일? ");
-      String startDay = keyboard.nextLine();
-      
+      start[a] = Date.valueOf(kb.nextLine());
+
       System.out.println("종료일? ");
-      String endDay = keyboard.nextLine();
-      
+      end[a] = Date.valueOf(kb.nextLine());
+
       System.out.println("총 수업시간? ");
-      int classTime = keyboard.nextInt();
-      keyboard.nextLine();
-      
+      totalHours[a] = Integer.parseInt(kb.nextLine());
+
       System.out.println("일 수업시간? ");
-      int classDay = keyboard.nextInt();
-      keyboard.nextLine();
-      
-      System.out.printf("번호: %d\n", number);
-      System.out.printf("수업명: %s\n", className);
-      System.out.printf("수업내용: %s\n", classC);
-      System.out.printf("시작일: %s\n", startDay);
-      System.out.printf("종료일: %s\n", endDay);
-      System.out.printf("총 수업시간: %d\n", classTime);
-      System.out.printf("일 수업시간: %d\n", classDay);
-      
-      
-    
-    
+      dayHours[a] = Integer.parseInt(kb.nextLine());
+
+
+
+      System.out.println("계속하시겠습니까? (Y/n)");
+      String str = kb.nextLine(); 
+
+      if (!str.equalsIgnoreCase("y") && !str.equalsIgnoreCase("")) {
+        break;
+
+
+      }
+      ++a;
     }
+    if (a < 200) {
+    while (a <= 200) {
+        System.out.println();
+        System.out.printf("%d. ", no[a]);
+        System.out.printf("%s: ", title[a]);
+        System.out.printf("%s ~ %s, ", start[a], end[a]);
+        System.out.printf("%d\n", totalHours[a]);
+        
+          break; //break에 라벨명을 지정하면 그 라벨이 붙은 문장을 나감
+    }
+    }
+
+
+    kb.close();
+  }
 }

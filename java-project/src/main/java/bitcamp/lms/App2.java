@@ -1,42 +1,67 @@
-
 package bitcamp.lms;
+import java.util.*;
+import java.sql.Date;
 
 public class App2 {
 
-    public static void main(String[] args) {      
-    java.io.InputStream in = System.in;
-    java.util.Scanner keyboard = new java.util.Scanner(in);
+  public static void main(String[] args) {
+    Scanner kb = new Scanner (System.in);
+    int a1 = 200;
+    String[] b = new String[a1]; //max 200
+    int a2 = 0; 
+    java.util.Date date = new java.util.Date();
     
-    System.out.println("번호? ");
-    int number = keyboard.nextInt();
-    keyboard.nextLine();
-    
-    System.out.println("이름? ");
-    String name = keyboard.nextLine();
-    
-    System.out.println("이메일? ");
-    String email = keyboard.nextLine();
-    
-    System.out.println("암호? ");
-    int passward = keyboard.nextInt();
-    keyboard.nextLine();
-    
-    System.out.println("사진? ");
-    String photo = keyboard.nextLine();
-    
-    System.out.println("전화번호? ");
-    int phone = keyboard.nextInt();
-    keyboard.nextLine();
-    
-    System.out.printf("번호: %d\n", number);
-    System.out.printf("이름: %s\n", name);
-    System.out.printf("이메일: %s\n", email);
-    System.out.printf("비밀번호: %s\n", passward);
-    System.out.printf("사진: %s\n", photo);
-    System.out.printf("전화번호: %d\n", phone);
-    
-    
-  
-  
+    while (a2 < a1) {
+
+      int no;
+      String name;
+      String mail;
+      String pass;
+      String pic;
+      int phone;
+      
+      
+      System.out.println("번호? ");
+      no = Integer.parseInt(kb.nextLine());
+
+      System.out.println("이름? ");
+      name = kb.nextLine();
+
+      System.out.println("이메일? ");
+      mail = kb.nextLine();
+
+      System.out.println("암호? ");
+      pass = kb.nextLine();
+
+      System.out.println("사진? ");
+      pic = kb.nextLine();
+
+      System.out.println("전화번호? ");
+      phone = Integer.parseInt(kb.nextLine());
+      
+      
+
+      System.out.println("계속하시겠습니까? (Y/n)");
+      String str = kb.nextLine(); 
+
+      if (!str.equalsIgnoreCase("y") && !str.equalsIgnoreCase("")) {
+        break;
+
+        
+      }
+      a2++;
+      while (a1 < 200) {
+        System.out.println();
+        System.out.printf("%d. ", no);
+        System.out.printf("%s: ", name);
+        System.out.printf("%s ~ %s, ", mail);
+        System.out.printf("%d, ", phone);
+        //System.out.printf("%s/n", );
+        
+          break;
     }
+  }
+    kb.close();
 }
+}
+  

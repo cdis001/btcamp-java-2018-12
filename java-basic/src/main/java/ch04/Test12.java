@@ -20,5 +20,14 @@ public class Test12 {
     b2 = false & (b1 = false);
     System.out.printf("b1=%b, b2=%b\n", b1, b2); //false, false
     
+    b1 = true;
+    b2 = true || (b1 = false);
+    System.out.printf("b1=%b, b2=%b\n", b1, b2);
+    
+    b1 = true;
+    b2 = true | (b1 = false);
+    System.out.printf("b1=%b, b2=%b\n", b1, b2);
+    
+    
   }
 }
