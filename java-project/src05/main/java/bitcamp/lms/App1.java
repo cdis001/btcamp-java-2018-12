@@ -1,6 +1,6 @@
 package bitcamp.lms;
 
-public class App {
+public class App1 {
 
     public static void main(String[] args) {
       java.io.InputStream in = System.in;
