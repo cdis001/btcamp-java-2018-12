@@ -2,9 +2,9 @@ package bitcamp.lms;
 import java.util.*;
 import java.sql.Date;
 
-public class App01 {
+public class App {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) {        
     Scanner kb = new Scanner(System.in);
 
     int[] no = new int[200];
@@ -38,6 +38,7 @@ public class App01 {
       System.out.println("일 수업시간? ");
       dayHours[a] = Integer.parseInt(kb.nextLine()); 
 
+      System.out.println();
       System.out.println("계속하시겠습니까? (Y/n)");
       String str = kb.nextLine(); 
       a++;
@@ -51,7 +52,7 @@ public class App01 {
     }
     kb.close();
     int b = 0;
-    while (true) {
+    while (true) {      
       System.out.println();
       System.out.printf("%d. ", no[b]);
       System.out.printf("%s: ", title[b]);
@@ -62,8 +63,4 @@ public class App01 {
         break;
     }
   }//main end
-
-
-
-
 }//<class end
