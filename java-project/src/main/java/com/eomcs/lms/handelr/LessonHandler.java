@@ -6,7 +6,10 @@ import java.sql.Date;
 
 public class LessonHandler {
   
-  public Scanner keyboard = new Scanner(System.in);
+  public Scanner keyboard;
+  public LessonHandler (Scanner keyboard){
+    this.keyboard = keyboard;
+  }
   static final int LENGTH = 10;
   Lesson[] lessons = new Lesson[LENGTH];
   int lessonIdx = 0;

@@ -14,6 +14,9 @@ public class App {
     BoardHandler bH = new BoardHandler();
     bH.keyboard = keyboard;
     
+    BoardHandler bH2 = new BoardHandler();
+    bH2.keyboard = keyboard;
+    
     LessonHandler lH = new LessonHandler();
     lH.keyboard = keyboard;
     
@@ -36,6 +39,10 @@ public class App {
         bH.boardAdd();
       } else if (command.equals("/board/list")) {
         bH.boardList();
+      } else if (command.equals("/board2/add")) {
+        bH2.boardAdd();
+      } else if (command.equals("/board2/list")) {
+        bH2.boardList();
       }else if (command.equals("quit")) {
         System.out.println("안녕!");
         break;

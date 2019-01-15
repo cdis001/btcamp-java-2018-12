@@ -5,12 +5,14 @@ import java.util.Scanner;
 import com.eomcs.lms.domain.Board;
 
 public class BoardHandler {
-  public Scanner keyboard = new Scanner(System.in);
-  static final int LENGTH = 10;
+  static final int LENGTH = 10; //공통으로 관리할 변수
 
+  public Scanner keyboard = new Scanner(System.in);
+  //App에서 불러올 예정이기 때문에,  굳이 static을 붙이지 않아도 됨;
   Board[] boards = new Board[LENGTH]; 
   int boardIdx = 0;
-
+  //개별적으로 관리해야 할 변수들; board 배열, 배열 초기값
+  
   public void boardList() {
     for (int j = 0; j < this.boardIdx; j++) {
       System.out.printf("%3d, %-20s, %s, %d\n", 

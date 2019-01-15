@@ -1,17 +1,23 @@
 package com.eomcs.lms.handelr;
+//생성자를 사용하는 이유?????
+
 
 import java.sql.Date;
 import java.util.Scanner;
 import com.eomcs.lms.domain.Board;
 
 public class BoardHandler {
-  public Scanner keyboard = new Scanner(System.in);
-  //App에서 불러올 예정이기 때문에,  굳이 static을 붙이지 않아도 됨;
-  static final int LENGTH = 10;
+  static final int LENGTH = 10; 
 
+  public Scanner keyboard;
+  public BoardHandler(Scanner keyboard) {
+    this.keyboard = keyboard; //생성자를 통하여 기본 초기값을 keyboard로 맞추기 위함??
+    //굳이 생성자를 사용하여 초기값으로 맞추는 이유?-> 객체 생성시 필수입력값을 강제하기 위함???
+    //keyboard라는 이름의 파라미터 생성?!???
+  }
   Board[] boards = new Board[LENGTH]; 
   int boardIdx = 0;
-
+  
   public void boardList() {
     for (int j = 0; j < this.boardIdx; j++) {
       System.out.printf("%3d, %-20s, %s, %d\n", 

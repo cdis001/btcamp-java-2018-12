@@ -6,7 +6,11 @@ import com.eomcs.lms.domain.Member;
 
 public class MemberHandler {
   
-  public Scanner keyboard = new Scanner(System.in);
+  public Scanner keyboard;
+  public MemberHandler(Scanner keyboard) {
+    this.keyboard = keyboard;
+    //= new Scanner(System.in);
+  }
   static final int LENGTH = 10;
   Member[] members = new Member[LENGTH];
   int memberIdx = 0;

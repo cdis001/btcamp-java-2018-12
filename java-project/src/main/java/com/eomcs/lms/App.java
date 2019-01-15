@@ -8,17 +8,15 @@ import com.eomcs.lms.handelr.MemberHandler;
 public class App {
   static Scanner keyboard = new Scanner(System.in);
 
-
   public static void main(String[] args) {
     
-    BoardHandler bH = new BoardHandler();
-    bH.keyboard = keyboard;
+    BoardHandler bH = new BoardHandler(keyboard);
     
-    LessonHandler lH = new LessonHandler();
-    lH.keyboard = keyboard;
+    BoardHandler bH2 = new BoardHandler(keyboard);
     
-    MemberHandler mH = new MemberHandler();
-    mH.keyboard = keyboard;
+    LessonHandler lH = new LessonHandler(keyboard);
+    
+    MemberHandler mH = new MemberHandler(keyboard);
     
     
     while (true) {
@@ -36,6 +34,10 @@ public class App {
         bH.boardAdd();
       } else if (command.equals("/board/list")) {
         bH.boardList();
+      } else if (command.equals("/board2/add")) {
+        bH2.boardAdd();
+      } else if (command.equals("/board2/list")) {
+        bH2.boardList();
       }else if (command.equals("quit")) {
         System.out.println("안녕!");
         break;
