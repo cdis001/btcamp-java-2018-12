@@ -1,5 +1,5 @@
 //팩토리 메서드 적용 후
-package factory_mathod;
+package design_pattren.singleton;
 
 class Car2 {
   String model;
@@ -8,29 +8,29 @@ class Car2 {
 }
 
 class Car2Factory {
-  public static Car2 createCar2(String model) {
+  public static Car2 createCar2(String product) {
     Car2 c = new Car2();
     
     switch (product) {
-      case "tc"
+      case "tc":
       c.model = "티코";
       c.cc = 890;
       c.sunroof = true;
       break;
       
-      case "tcg"
+      case "tcg":
       c.model = "티코 골드";
       c.cc = 890;
       c.sunroof = true;
       break;
       
-      case "sn"
+      case "sn":
       c.model = "소나타";
       c.cc = 1980;
       c.sunroof = false;
       break;
 
-      case "sng"
+      case "sng":
       c.model = "소나타 골드";
       c.cc = 1980;
       c.sunroof = false;

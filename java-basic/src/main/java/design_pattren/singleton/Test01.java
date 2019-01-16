@@ -1,5 +1,5 @@
 //팩토리 메서드 적용 전
-package factory_mathod;
+package design_pattren.singleton;
 
 class Car {
   String model;

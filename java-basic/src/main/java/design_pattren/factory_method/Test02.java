@@ -1,5 +1,5 @@
 //싱글톤(singleton) 적용 후
-package design_pattren;
+package design_pattren.factory_method;
 class Car2 {
   String model;
   int cc;
