@@ -4,26 +4,25 @@ import java.util.Scanner;
 import com.eomcs.lms.domain.Lesson;
 import java.sql.Date;
 
+
 public class LessonHandler {
   
   public Scanner keyboard;
+  ArrayList lessonList = new ArrayList();
   public LessonHandler (Scanner keyboard){
     this.keyboard = keyboard;
   }
-  static final int LENGTH = 10;
-  Lesson[] lessons = new Lesson[LENGTH];
-  int lessonIdx = 0;
-  
   public void lessonList() {
-    for (int j = 0; j < this.lessonIdx; j++) {
-      System.out.printf("%3d, %-15s, %10s ~ %10s, %4d\n", 
-          this.lessons[j].getNo(), this.lessons[j].getTitle(), 
-          this.lessons[j].getStartDate(), this.lessons[j].getEndDate(),
-          this.lessons[j].getTotalHours());}
+    Object[] lessons = lessonList.toArray();
+          for (Object lesson : lessons) {
+            Lesson lesson1 = (Lesson) lesson;
+            System.out.printf("%3d, %-15s, %10s ~ %10s, %4d\n", 
+          lesson1.getNo(), lesson1.getTitle(), 
+          lesson1.getStartDate(), lesson1.getEndDate(),
+          lesson1.getTotalHours());}
   }
     public void lessonAdd() {
       Lesson lesson = new Lesson();
-
       System.out.print("번호? ");
       lesson.setNo(Integer.parseInt(keyboard.nextLine()));
 
@@ -45,11 +44,9 @@ public class LessonHandler {
       System.out.print("일수업시간? ");
       lesson.setDayHours(Integer.parseInt(keyboard.nextLine()));
 
-      // i 번째 배열에 수업 정보를 담고 있는 Lesson 객체(의 주소)를 보관한다.
-      this.lessons[this.lessonIdx] = lesson;
-      this.lessonIdx++;
 
       System.out.println("저장하였습니다.");
       
+      lessonList.add(lesson);
     }
 }
