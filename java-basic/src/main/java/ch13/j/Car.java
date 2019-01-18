@@ -1,0 +1,14 @@
+package ch13.j;
+
+public abstract class Car {
+  String model;
+  
+  public void run() {
+    System.out.println("달린다");
+  }
+  
+  public void stop() {
+    System.out.println("멈춘다");
+  }
+  
+}
