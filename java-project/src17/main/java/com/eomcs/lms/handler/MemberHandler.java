@@ -14,9 +14,9 @@ public class MemberHandler {
   }
   
   public void listMember() {
-    Object[] objs = list.toArray();
-    for (Object obj : objs) {
-      Member member = (Member) obj;
+    Member[] members = (Member[]) list.toArray();
+    
+    for (Member member : members) {
       System.out.printf("%3d, %-4s, %-20s, %-15s, %s\n", 
           member.getNo(), member.getName(), 
           member.getEmail(), member.getTel(), member.getRegisteredDate());

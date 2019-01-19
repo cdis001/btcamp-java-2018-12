@@ -1,28 +1,29 @@
 package com.eomcs.lms.handler;
 
 import java.util.Arrays;
+import com.eomcs.lms.domain.Board;
 
-public class ArrayList<E> {
+public class ArrayList {
   static final int DEFAULT_CAPACITY = 10;
   Object[] list;
   int size = 0;
-
-  public ArrayList(E[] arr) {
-    list  = new Object[DEFAULT_CAPACITY];
+  
+  public ArrayList() {
+    list  = new Board[DEFAULT_CAPACITY];
   }
 
-  public ArrayList(E[] arr, int initialCapacity) {
+  public ArrayList(int initialCapacity) {
     if (initialCapacity > DEFAULT_CAPACITY)
-      list = new Object[initialCapacity];
+      list = new Board[initialCapacity];
     else
-      list = new Object[DEFAULT_CAPACITY];
+      list = new Board[DEFAULT_CAPACITY];
   }
 
-  public E[] toArray(E[] sampleArr) {
-    return Arrays.copyOf(sampleArr, size);
+  public Object[] toArray() {
+    return Arrays.copyOf(list, size);
   }
 
-  public void add(E obj) {
+  public void add(Object obj) {
     if (size >= list.length) {
       int oldCapacity = list.length;
       int newCapacity = oldCapacity + (oldCapacity >> 1);
