@@ -5,24 +5,25 @@ import java.util.Scanner;
 import com.eomcs.lms.domain.Board;
 
 public class BoardHandler {
- 
-
-  public Scanner keyboard;
-  ArrayList list;
+  
+  Scanner keyboard;
+  ArrayList<Board> list;
+  
   public BoardHandler(Scanner keyboard) {
-    this.keyboard = keyboard; 
-    this.list = new ArrayList(20);
+    this.keyboard = keyboard;
+    this.list = new ArrayList<>();
   }
   
-  public void boardList() {
-    Object[] objs = list.toArray();
-    for (Object obj : objs) {
-      Board board = (Board) obj;
+  public void listBoard() {
+    Board[] boards = list.toArray(new Board[0]);
+    
+    for (Board board : boards) {
       System.out.printf("%3d, %-20s, %s, %d\n", 
           board.getNo(), board.getContents(), 
           board.getCreatedDate(), board.getViewCount());
-    }    
+    }
   }
+  
   public void boardAdd() {
     Board board = new Board();
 

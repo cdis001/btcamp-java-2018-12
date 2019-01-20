@@ -8,6 +8,31 @@ public class ArrayList<E> {
   Object[] list;
   int size = 0;
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + Arrays.deepHashCode(list);
+    result = prime * result + size;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ArrayList other = (ArrayList) obj;
+    if (!Arrays.deepEquals(list, other.list))
+      return false;
+    if (size != other.size)
+      return false;
+    return true;
+  }
+
   public ArrayList() {
     list = new Object[DEFAULT_CAPACITY];
   }
@@ -43,20 +68,33 @@ public class ArrayList<E> {
   
   public E get(int index) {
     // index : 값을 꺼낼 배열의 항목 위치
-    return null;
+    System.out.println("번호를 입력하세요");
+    if(index < 0 || index > size ) {
+      System.out.println("번호를 확인해주세요");
+      return null;
+    }
+    return (E) list[index];
   }
   
   public E set(int index, E value) {
     // index : 값을 변경할 배열의 항목 위치
     // value : 해당 위치에 있는 값을 대체할 값 
     // 리턴 값 : 대체되기 전의 기존 값
-    return null;
+    if(index < 0 || index > size ) {
+      System.out.println("번호를 확인해주세요");
+      return null;
+    }
+    E arr1 = (E) list[index];
+    list[index] = value;
+    return arr1;
   }
   
   public E remove(int index) {
     // index : 삭제할 배열의 항목 위치
     // 리턴값: 삭제된 이전 값
     // 힌트: System.arraycopy() 참고! 
+    E arr1 = (E) list[index];
+    System.arraycopy(arr1, index + 1, arr1, index, 0);
     return null;
   }
 }
