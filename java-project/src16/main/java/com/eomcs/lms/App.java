@@ -11,12 +11,15 @@ public class App {
   public static void main(String[] args) {
     
     BoardHandler bH = new BoardHandler(keyboard);
+    //생성자가 없으면, keyboard값을 받아오지 않더라도 App에서는 컴파일시 에러가 뜨지 않음! ->그러나, keyboard값이 없으면 실행시 에러가 뜸
+    //생성자가 있는 경우 keyboard값을 받아와야 컴파일시 에러가 뜨므로 keyboard값을 '강제로' 받아와야 함
     
     BoardHandler bH2 = new BoardHandler(keyboard);
     
     LessonHandler lH = new LessonHandler(keyboard);
     
     MemberHandler mH = new MemberHandler(keyboard);
+    //당장 하나만 쓰는 정보여도 나중에 재사용을 위하여 인스턴스 필드로 선언하는편이 좋음 
     
     
     while (true) {

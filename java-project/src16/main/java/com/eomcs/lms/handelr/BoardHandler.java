@@ -8,16 +8,15 @@ public class BoardHandler {
  
 
   public Scanner keyboard;
-  ArrayList list;
   public BoardHandler(Scanner keyboard) {
     this.keyboard = keyboard; 
-    this.list = new ArrayList(20);
+    this.list = new BoardList(20);
   }
+  BoardList list;
   
   public void boardList() {
-    Object[] objs = list.toArray();
-    for (Object obj : objs) {
-      Board board = (Board) obj;
+    Board[] boards = list.toArray();
+    for (Board board : boards) {
       System.out.printf("%3d, %-20s, %s, %d\n", 
           board.getNo(), board.getContents(), 
           board.getCreatedDate(), board.getViewCount());
@@ -40,17 +39,6 @@ public class BoardHandler {
 
     System.out.println("저장하였습니다.");
 
-  }
-public void detailBoard() {
-    
-  }
-  
-  public void updateBoard() {
-    
-  }
-  
-  public void deleteBoard() {
-    
   }
 
 }

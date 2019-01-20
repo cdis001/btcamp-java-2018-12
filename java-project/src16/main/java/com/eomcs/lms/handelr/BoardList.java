@@ -4,7 +4,7 @@ import java.util.Arrays;
 import com.eomcs.lms.domain.Board;
 
 public class BoardList {
-  static int oldLength = 10;
+  static int oldLength =10;
   Board[] boards; 
   int boardIdx = 0;
 
@@ -31,9 +31,9 @@ public class BoardList {
       int oldL = boards.length;
       int newL = oldL + (oldL >> 1);
       boards = Arrays.copyOf(boards, newL);
+      System.out.println("배열이 증가하였습니다");
 
     }
-
     boards[boardIdx++] = board;
   }
 }

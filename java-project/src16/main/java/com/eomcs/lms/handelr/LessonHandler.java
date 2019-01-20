@@ -7,17 +7,16 @@ import java.sql.Date;
 public class LessonHandler {
   
   public Scanner keyboard;
-  public ArrayList list;
+  public LessonList list;
   public LessonHandler (Scanner keyboard){
     this.keyboard = keyboard;
-    list = new ArrayList();
+    list = new LessonList();
   }
 
   
   public void lessonList() {
-    Object[] objs = list.toArray();
-    for (Object obj : objs) {
-      Lesson lesson = (Lesson)obj;
+    Lesson[] lessons = list.toArray();
+    for (Lesson lesson : lessons) {
       System.out.printf("%3d, %-15s, %10s ~ %10s, %4d\n", 
           lesson.getNo(), lesson.getTitle(), 
           lesson.getStartDate(), lesson.getEndDate(),
