@@ -1,57 +1,61 @@
 package com.eomcs.lms.domain;
+
 import java.sql.Date;
 
 public class Lesson {
   private int no;
-  private String title;
-  private String contents;
-  private Date startDate;
-  private Date endDate;
-  private int totalHours;
-  private int dayHours;
-  
-  public int getNo() {
-    return no;
-  }
   public void setNo(int no) {
     this.no = no;
   }
+  public int getNo() {
+    return no;
+  }
+  
+  private String title;
   public String getTitle() {
     return title;
   }
   public void setTitle(String title) {
     this.title = title;
   }
+  
+  private String contents;
+  public void setContents(String contents) {
+    this.contents = contents;
+  }
   public String getContents() {
     return contents;
   }
-  public void setContents(String contents) {
-    this.contents = contents;
+  
+  private Date startDate;
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
   }
   public Date getStartDate() {
     return startDate;
   }
-  public void setStartDate(Date startDate) {
-    this.startDate = startDate;
+  
+  private Date endDate;
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
   }
   public Date getEndDate() {
     return endDate;
   }
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
+  
+  private int totalHours;
   public int getTotalHours() {
     return totalHours;
   }
   public void setTotalHours(int totalHours) {
     this.totalHours = totalHours;
   }
+
+  private int dayHours;
   public int getDayHours() {
     return dayHours;
   }
   public void setDayHours(int dayHours) {
     this.dayHours = dayHours;
   }
-  
-  
 }

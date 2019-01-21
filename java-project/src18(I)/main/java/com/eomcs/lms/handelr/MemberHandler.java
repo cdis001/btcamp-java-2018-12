@@ -3,9 +3,10 @@ package com.eomcs.lms.handelr;
 import java.sql.Date;
 import java.util.Scanner;
 import com.eomcs.lms.domain.Member;
+import com.eomcs.util.ArrayList;
 
 public class MemberHandler {
-  
+
   public Scanner keyboard;
   public ArrayList list;
   public MemberHandler(Scanner keyboard) {
@@ -23,16 +24,16 @@ public class MemberHandler {
   }
   public void memberAdd() {
     Member member = new Member();
-    
+
     System.out.print("번호? ");
     member.setNo(Integer.parseInt(keyboard.nextLine()));
-    
+
     System.out.print("이름? ");
     member.setName(keyboard.nextLine());
-    
+
     System.out.print("이메일? ");
     member.setEmail(keyboard.nextLine());
-    
+
     System.out.print("암호? ");
     member.setPassword(keyboard.nextLine());
 
@@ -43,10 +44,21 @@ public class MemberHandler {
     member.setTel(keyboard.nextLine());
 
     member.setRegisteredDate(new Date(System.currentTimeMillis())); 
-    
+
     list.add(member);
-    
+
     System.out.println("저장하였습니다.");
-    
+
+  }
+  public void detailMember() {
+
+  }
+
+  public void updateMember() {
+
+  }
+
+  public void deleteMember() {
+
   }
 }

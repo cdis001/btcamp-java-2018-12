@@ -1,4 +1,4 @@
-package com.eomcs.lms.handelr;
+package com.eomcs.util;
 
 import java.util.Arrays;
 
@@ -7,31 +7,7 @@ public class ArrayList<E> {
   static final int DEFAULT_CAPACITY = 10;
   Object[] list;
   int size = 0;
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + Arrays.deepHashCode(list);
-    result = prime * result + size;
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ArrayList other = (ArrayList) obj;
-    if (!Arrays.deepEquals(list, other.list))
-      return false;
-    if (size != other.size)
-      return false;
-    return true;
-  }
+  
 
   public ArrayList() {
     list = new Object[DEFAULT_CAPACITY];
@@ -66,14 +42,14 @@ public class ArrayList<E> {
     list[size++] = obj;
   }
   
+  @SuppressWarnings("unchecked")
   public E get(int index) {
     // index : 값을 꺼낼 배열의 항목 위치
-    System.out.println("번호를 입력하세요");
-    if(index < 0 || index > size ) {
-      System.out.println("번호를 확인해주세요");
-      return null;
+    if(index >= 0 && index < size ) { //and 와 or의 차이
+      return (E) list[index];
     }
-    return (E) list[index];
+    System.out.println("번호를 다시 확인해주세요");
+    return null;
   }
   
   public E set(int index, E value) {
@@ -83,7 +59,9 @@ public class ArrayList<E> {
     if(index < 0 || index > size ) {
       System.out.println("번호를 확인해주세요");
       return null;
-    }
+    }//유효성 검사
+    
+    @SuppressWarnings("unchecked")
     E arr1 = (E) list[index];
     list[index] = value;
     return arr1;
@@ -93,8 +71,24 @@ public class ArrayList<E> {
     // index : 삭제할 배열의 항목 위치
     // 리턴값: 삭제된 이전 값
     // 힌트: System.arraycopy() 참고! 
-    E arr1 = (E) list[index];
-    System.arraycopy(arr1, index + 1, arr1, index, 0);
-    return null;
+    if(index < 0 || index > size ) {
+      System.out.println("번호를 확인해주세요");
+      return null;
+    }
+    
+    @SuppressWarnings("unchecked")
+    //E 타입의 arr1 = list에 들어있는 index번호의 배열값 (arr1은 배열이 아님); 삭제할 데이터
+    E arr1 = (E) list[index]; 
+    
+    for (int i = index; i < size -1; i++) {
+      list[i] = list[i + 1];
+      
+      size--;
+    }
+    return arr1;
+  }
+
+  public int size() {
+    return this.size;
   }
 }
