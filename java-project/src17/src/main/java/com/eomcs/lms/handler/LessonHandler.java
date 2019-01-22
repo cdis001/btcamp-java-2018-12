@@ -3,20 +3,20 @@ package com.eomcs.lms.handler;
 import java.sql.Date;
 import java.util.Scanner;
 import com.eomcs.lms.domain.Lesson;
-import com.eomcs.util.ArrayList;
 
 public class LessonHandler {
-
   Scanner keyboard;
-  ArrayList<Lesson> list;
+  ArrayList list;
+
   public LessonHandler(Scanner keyboard) {
     this.keyboard = keyboard;
-    this.list = new ArrayList<Lesson>(10);
+    this.list = new ArrayList(20);
   }
-  
+
   public void listLesson() {
-    Lesson[] lesson = list.toArray(new Lesson[] {});
-    for (Lesson lessons : lesson) {
+    Object[] obj = list.toArray();
+    for (Object objs : obj) {
+      Lesson lessons = (Lesson) objs;
       System.out.printf("%3d, %-15s, %10s ~ %10s, %4d\n", 
           lessons.getNo(), lessons.getTitle(), 
           lessons.getStartDate(), lessons.getEndDate(),
@@ -49,7 +49,7 @@ public class LessonHandler {
     lesson.setDayHours(Integer.parseInt(keyboard.nextLine()));
     
     list.add(lesson);
-
+    
     System.out.println("저장하였습니다.");
   }
 }
