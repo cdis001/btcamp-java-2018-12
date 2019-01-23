@@ -64,5 +64,7 @@ public class ArrayList<E> {
     
     @SuppressWarnings("unchecked")
     E obj = (E) list[value];
+    
+    return obj;
   }
 }

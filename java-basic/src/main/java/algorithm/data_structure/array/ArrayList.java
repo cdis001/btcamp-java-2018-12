@@ -66,7 +66,7 @@ public class ArrayList {
       return null;
     }
     Object old = this.arr[index];
-    return null;
+    return old;
   }
   
   public Object remove(int index) {
