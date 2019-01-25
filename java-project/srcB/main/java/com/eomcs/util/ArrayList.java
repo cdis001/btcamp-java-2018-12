@@ -2,7 +2,8 @@ package com.eomcs.util;
 
 import java.util.Arrays;
 
-public class ArrayList<E> {
+public class ArrayList<E> implements List {
+
   private static final int DEFAULT_CAPACITY = 10;
   private Object[] list;
   private int size = 0;
@@ -18,10 +19,21 @@ public class ArrayList<E> {
       list = new Object[DEFAULT_CAPACITY];
   }
   
-  @SuppressWarnings("unchecked")
-  public E[] toArray(E[] a) {
-    if (a.length < size) {
+  @Override
+  public Object[] toArray() {
+    if (list.length < size) {
       return (E[]) Arrays.copyOf(list, size, a.getClass());
+    }
+    System.arraycopy(list, 0, a, 0, size);
+    if (list.length > size)
+      list[size] = null;
+    return list;
+  }
+  @SuppressWarnings("unchecked")
+  public <T> T[] toArray(T[] a) {
+    Object[] temp = new Object[this.size];
+    if (a.length < size) {
+      return (T[]) Arrays.copyOf(list, size, a.getClass());
     }
     System.arraycopy(list, 0, a, 0, size);
     if (a.length > size)
@@ -95,4 +107,5 @@ public class ArrayList<E> {
       System.out.println(list.get(i));
     }
   }
+
 }

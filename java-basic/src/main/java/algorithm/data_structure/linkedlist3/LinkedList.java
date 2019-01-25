@@ -14,7 +14,7 @@ public class LinkedList<E> {
   public void add(E value) {
     tail.value = value; //받아온 value값을 저장
     
-    Node<E> node = new Node(); //노드 새로 생성
+    Node<E> node = new Node<>(); //노드 새로 생성
     
     tail.next = node; //새롭게 생성한 노드에 이전 노드의 주소 저장
     
@@ -119,7 +119,7 @@ public class LinkedList<E> {
       cursor.next.prev = cursor.prev;//찾은 노드의 다음 노드가 이전 노드를 가리킴
       
       
-      E old = cursor;
+      E old = cursor.value;
       cursor.value = null;
       cursor.prev = null;
       cursor.next = null; //찾은 노드의 V, P, N값을 null값으로 변경; 가비지컬렉터를 돕기 위해

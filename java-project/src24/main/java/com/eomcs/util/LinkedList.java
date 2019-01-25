@@ -1,4 +1,4 @@
-// 제네릭 적용하기
+// List 사용 규칙에 따라 LinkedList를 만든다.
 package com.eomcs.util;
 
 import java.lang.reflect.Array;
@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
 // => E 타입이라고 가정하고 코드를 작성한다.
 // => E가 무슨 타입인지는 LinkedList를 사용할 때 결정된다.
 //
-public class LinkedList<E> {
+public class LinkedList<E> implements Cloneable, List<E> {
   
   protected Node<E> head;
   protected Node<E> tail;
@@ -82,10 +82,19 @@ public class LinkedList<E> {
   // 
   @SuppressWarnings("unchecked")
   public <T> T[] toArray(T[] a) {
-    T[] arr = (T[]) Array.newInstance(
-        a.getClass() // getClass()의 리턴 값은 T 가 아니라 T[] 이다.
-         .getComponentType(), // getComponentType()의 리턴 값은 배열의 항목 타입이다. 즉 T.
-        this.size());
+    
+    T[] arr = null;
+    if (a.length >= size()) { 
+      // 파라미터로 받은 배열의 크기가 리스트의 모든 항목을 담을 만큼 크다면 
+      // 배열을 새로 만들지 않고 그대로 사용한다.
+      arr = a;
+    } else {
+      // 만약 파라미터로 받은 배열의 크기가 리스터의 항목 크기 보다 작다면 새로 배열을 만든다.
+      arr = (T[]) Array.newInstance(
+          a.getClass() // getClass()의 리턴 값은 T 가 아니라 T[] 이다.
+          .getComponentType(), // getComponentType()의 리턴 값은 배열의 항목 타입이다. 즉 T.
+          this.size());
+    }
     
     Node<E> cursor = head;
     
