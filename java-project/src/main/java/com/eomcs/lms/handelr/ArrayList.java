@@ -43,20 +43,39 @@ public class ArrayList<E> {
   
   public E get(int index) {
     // index : 값을 꺼낼 배열의 항목 위치
-    return null;
+    if (index < 0 || index > size) {
+      System.out.println("번호를 확인해주세요");
+      return null;
+    }
+    return (E) list[index];
   }
   
   public E set(int index, E value) {
     // index : 값을 변경할 배열의 항목 위치
     // value : 해당 위치에 있는 값을 대체할 값 
     // 리턴 값 : 대체되기 전의 기존 값
-    return null;
+    if (index < 0 || index > size) {
+      System.out.println("번호를 확인해주세요");
+      return null;
+    }
+    E old = (E) list[index];
+    list[index] = value;
+    return old;
   }
   
   public E remove(int index) {
     // index : 삭제할 배열의 항목 위치
     // 리턴값: 삭제된 이전 값
     // 힌트: System.arraycopy() 참고! 
-    return null;
+    if (index < 0 || index > size) {
+      System.out.println("번호를 확인해주세요");
+      return null;
+    }
+    E old = (E) list[index];
+    for (int i = size - 1; i < index; i--) {
+      list[i--] = list[i];
+    }
+   
+    return old;
   }
 }
