@@ -13,6 +13,6 @@ public class Student {
 
   @Override
   public String toString() {
-    return "Student1 [name=" + name + ", age=" + age + ", working=" + working + "]";
+    return "Student [name=" + name + ", age=" + age + ", working=" + working + "]";
   }
 }
