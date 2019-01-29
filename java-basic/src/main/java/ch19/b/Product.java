@@ -2,9 +2,11 @@ package ch19.b;
 
 public class Product {
   
+  // 제품 분류 데이터로 사용할 값을 상수로 정의하였다.
+  //
   public static final int COMPUTER_MOUSE = 101;
   public static final int COMPUTER_KEYBOARD = 102;
-  public static final int COMPUTER_MONITER = 103;
+  public static final int COMPUTER_MONITOR = 103;
   public static final int COMPUTER_CPU = 104;
   public static final int COMPUTER_RAM = 105;
   public static final int COMPUTER_VGA = 106;
