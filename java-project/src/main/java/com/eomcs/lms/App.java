@@ -1,8 +1,14 @@
 package com.eomcs.lms;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
@@ -31,9 +37,12 @@ public class App {
   static Scanner keyboard = new Scanner(System.in);
   static Stack<String> commandHistory = new Stack<>();
   static Queue<String> commandHistory2 = new LinkedList<>();
+  static ArrayList<Lesson> lessonList = new ArrayList<>();
   
   public static void main(String[] args) {
-    ArrayList<Lesson> lessonList = new ArrayList<>();
+    
+    loadLessonData();
+    
     LinkedList<Member> memberList = new LinkedList<>();
     ArrayList<Board> boardList = new ArrayList<>();
 
@@ -75,7 +84,7 @@ public class App {
           System.out.printf("작업 중 오류 발생: %s\n", e.toString());
         }
       } else if (command.equals("quit")) {
-        System.out.println("안녕!");
+        quit();
         break;
         
       } else if (command.equals("history")) {
@@ -116,4 +125,45 @@ public class App {
     System.out.print("명령> ");
     return keyboard.nextLine().toLowerCase();
   }
+  
+  private static void quit() {
+    saveLessonData();
+    System.out.println("안녕!");
+  }
+  
+  private static void loadLessonData() {
+    try(FileReader in = new FileReader("lesson.csv");
+        Scanner in2 = new Scanner(in);
+        ) {
+      while(true) {
+        lessonList.add(Lesson.valueOf(in2.nextLine()));
+      }
+      
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (NoSuchElementException e) {
+      System.out.println("수업데이터 로딩 완료");
+    }
+  }
+  
+  private static void saveLessonData() {
+    try (FileWriter out = new FileWriter("lesson.csv");) {
+      for (Lesson lesson : lessonList) {
+        out.write(String.format("%s,%s,%s,%s,%s,%d,%d\n",
+            lesson.getNo(),
+            lesson.getTitle(),
+            lesson.getContents(),
+            lesson.getStartDate(),
+            lesson.getEndDate(),
+            lesson.getTotalHours(),
+            lesson.getDayHours()));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+  
 }

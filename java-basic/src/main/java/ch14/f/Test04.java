@@ -6,7 +6,7 @@ public class Test04 {
     c1 = new Sedan();
     c1 = new SUV();
     c1 = new Convertible();
-    c1 = new Truck();
+    c1 = new Sedan();
     c1 = new PickupTruck();
    
     //상위타입의 인스턴스를 가리킬 수 없으며, 상속관계가 없는 타입 또한 가리킬 수 없음
