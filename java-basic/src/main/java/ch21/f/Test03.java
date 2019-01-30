@@ -6,11 +6,14 @@ import java.util.Scanner;
 
 public class Test03 {
 
-  static class MyResoult1 {
+  static class MyResourse1 {
     
     public int divide(int a, int b) {
       return a / b;
       
+    }
+    public void close() {
+      System.out.println("MyResourse1.close()");
     }
   }
   
