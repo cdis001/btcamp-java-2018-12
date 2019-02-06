@@ -15,7 +15,16 @@ public class Test01_2 {
         BufferedInputStream in1 = new BufferedInputStream(in);
         DataInputStream in2 = new DataInputStream(in1)) {
       
-      s1 = in2.
+
+      s1 = new Score (in2.readUTF(), in2.readInt(), in2.readInt(), in2.readInt());
+      s1.compute();
+      
+      s2 = new Score (in2.readUTF(), in2.readInt(), in2.readInt(), in2.readInt());
+      s2.compute();
+      
+      s3 = new Score (in2.readUTF(), in2.readInt(), in2.readInt(), in2.readInt());
+      s3.compute();
+     
       
       System.out.println(s1);
       System.out.println(s2);

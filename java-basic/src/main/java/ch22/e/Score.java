@@ -74,8 +74,8 @@ public class Score {
 
   @Override
   public String toString() {
-    return "Test01 [name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum="
-        + sum + ", aver=" + aver + "]";
+    return name + ", " + kor + ", " + eng + ", " + math + ", "
+        + sum + ", " + aver;
   }
 
 
