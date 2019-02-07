@@ -1,8 +1,6 @@
-package ch22.e;
+package ch22.f;
 
-import java.io.Serializable;
-
-public class Score implements Serializable {
+public class Score1 {
   
   private String name;
   private int kor;
@@ -12,11 +10,11 @@ public class Score implements Serializable {
   private float aver;
   
   
-  public Score() {
+  public Score1() {
     System.out.println("Score()");
   }
   
-  public Score(String name, int kor, int eng, int math) {
+  public Score1(String name, int kor, int eng, int math) {
     this.name = name;
     this.kor = kor;
     this.eng = eng;

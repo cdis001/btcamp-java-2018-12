@@ -1,10 +1,11 @@
-package ch22.e;
+package ch22.f;
 
 import java.io.Serializable;
 
-public class Score implements Serializable {
+public class Score2 implements Serializable {
   
   private String name;
+  private String tel;
   private int kor;
   private int eng;
   private int math;
@@ -12,11 +13,19 @@ public class Score implements Serializable {
   private float aver;
   
   
-  public Score() {
+  public String getTel() {
+    return tel;
+  }
+
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
+
+  public Score2() {
     System.out.println("Score()");
   }
   
-  public Score(String name, int kor, int eng, int math) {
+  public Score2(String name, int kor, int eng, int math) {
     this.name = name;
     this.kor = kor;
     this.eng = eng;
@@ -85,9 +94,10 @@ public class Score implements Serializable {
 
   @Override
   public String toString() {
-    return name + ", " + kor + ", " + eng + ", " + math + ", "
-        + sum + ", " + aver;
+    return "Score3 [name=" + name + ", tel=" + tel + ", kor=" + kor + ", eng=" + eng + ", math="
+        + math + ", sum=" + sum + ", aver=" + aver + "]";
   }
+
 
 
 }

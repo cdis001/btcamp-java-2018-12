@@ -1,8 +1,10 @@
-package ch22.e;
+package ch22.g;
 
 import java.io.Serializable;
 
-public class Score implements Serializable {
+public class Score2 implements Serializable {
+  
+  private static final long seialVersionUID = 1L;
   
   private String name;
   private int kor;
@@ -12,27 +14,14 @@ public class Score implements Serializable {
   private float aver;
   
   
-  public Score() {
-    System.out.println("Score()");
-  }
-  
-  public Score(String name, int kor, int eng, int math) {
-    this.name = name;
-    this.kor = kor;
-    this.eng = eng;
-    this.math = math;
-    compute();
-  }
-
-
   public String getName() {
     return name;
   }
 
 
   public void setName(String name) {
+    System.out.println("setName()");
     this.name = name;
-    this.compute();
   }
 
 
@@ -42,8 +31,8 @@ public class Score implements Serializable {
 
 
   public void setKor(int kor) {
+    System.out.println("setKor()");
     this.kor = kor;
-    this.compute();
   }
 
 
@@ -53,8 +42,8 @@ public class Score implements Serializable {
 
 
   public void setEng(int eng) {
+    System.out.println("setEng()");
     this.eng = eng;
-    this.compute();
   }
 
 
@@ -64,8 +53,8 @@ public class Score implements Serializable {
 
 
   public void setMath(int math) {
+    System.out.println("setMath()");
     this.math = math;
-    this.compute();
   }
 
 
@@ -74,20 +63,33 @@ public class Score implements Serializable {
   }
 
 
+  public void setSum(int sum) {
+    System.out.println("setSum()");
+    this.sum = sum;
+  }
+
+
   public float getAver() {
     return aver;
   }
 
-  public void compute() {
-    this.sum = this.kor + this.eng + this.math;
-    this.aver = sum / 3f;
+
+  public void setAver(float aver) {
+    System.out.println("setAver()");
+    this.aver = aver;
   }
+
+
+  public Score2() {
+    System.out.println("Score1()");
+  }
+
 
   @Override
   public String toString() {
-    return name + ", " + kor + ", " + eng + ", " + math + ", "
-        + sum + ", " + aver;
+    return "Score2 [name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum="
+        + sum + ", aver=" + aver + "]";
   }
-
+  
 
 }
