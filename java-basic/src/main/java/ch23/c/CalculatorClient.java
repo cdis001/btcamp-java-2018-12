@@ -1,6 +1,7 @@
 package ch23.c;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -10,36 +11,32 @@ public class CalculatorClient {
     try (Scanner keyboard = new Scanner(System.in);
         Socket socket = new Socket("localhost", 8888);
         PrintStream out = new PrintStream(socket.getOutputStream());
-        DataInputStream in = new DataInputStream(socket.getInputStream())) {
-      System.out.println("계산기 서버에 오신 걸 환영합니다!");
+        BufferedReader in = new BufferedReader (
+            new InputStreamReader(socket.getInputStream()))) {
+      while (true) { 
+        System.out.println("> ");
+        String input = keyboard.nextLine();
 
-      keyboard.nextLine();
-      
-      while (true) {
-        int a = in.readInt();
-        String b = in.readUTF();
-        int c = in.readInt();
-        int result = 0;
+        out.println(input);
+        out.flush();
 
-        switch (b) {
-          case "+": result = a + c; break;
-          case "-": result = a - c; break;
-          case "*": result = a * c; break;
-          case "/": result = a / c; break;
-        }
+        String response = in.readLine();
+        System.out.println(response);
 
-        if(b.equalsIgnoreCase("quit")) {
+        if (input.equalsIgnoreCase("quit")) {
           break;
         }
-        out.printf("결과는 %d입니다 \n", result);
       }
-      out.println("안녕히 가세요!");
-
-
-
     } catch(Exception e) {
       e.printStackTrace();
     }
-
+  }
+  
+  static void sendGreeting(PrintStream out) {
+    
+  }
+  
+  static void doCalculate(String request, PrintStream out) {
+    
   }
 }
