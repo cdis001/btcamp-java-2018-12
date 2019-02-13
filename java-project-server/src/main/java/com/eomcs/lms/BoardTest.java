@@ -22,10 +22,16 @@ public class BoardTest {
       
       list();
       
-//      detail(1);
-//      
-//      update(new Board(1, "1111x"));
-//      
+      add(new Board(3, "2222"));
+      
+      list();
+      
+      detail(1);
+      
+      update(new Board(1, "1111x"));
+      
+      list();
+      
 //      detail(1);
 //      
 //      delete(2);
@@ -119,6 +125,7 @@ public class BoardTest {
     
     @SuppressWarnings("unchecked")
     List<Board> boards = (List<Board>) in.readObject();
+    
     for (Board b : boards) {
       System.out.println(b);
     }

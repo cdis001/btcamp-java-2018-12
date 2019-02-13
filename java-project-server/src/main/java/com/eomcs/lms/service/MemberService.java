@@ -62,6 +62,7 @@ public class MemberService extends AbstractService<Member> {
     out.writeUTF("OK");
     out.flush();
     int no = in.readInt();
+    
     int index = 0;
     for(Member m : list) {
       if(m.getNo() == no) {

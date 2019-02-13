@@ -20,14 +20,14 @@ public class ServerTest {
       ServerTest.in = in;
       ServerTest.out = out;
 
-      new MemberTest(out, in).test();
-      System.out.println("--------------------");
+//      new MemberTest(out, in).test();
+//      System.out.println("--------------------");
       
       new BoardTest(out, in).test();
       System.out.println("--------------------");
       
-      new LessonTest(out, in).test();
-      System.out.println("--------------------");
+//      new LessonTest(out, in).test();
+//      System.out.println("--------------------");
 
       quit();
 

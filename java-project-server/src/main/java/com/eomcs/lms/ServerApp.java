@@ -35,6 +35,7 @@ public class ServerApp {
         boardService.loadData("board.bin");
       } catch (Exception e) {
         System.out.println("게시글 데이터 로딩 중 오류 발생!");
+        boardService.saveData();
        // e.printStackTrace();
       }
       
@@ -68,7 +69,7 @@ public class ServerApp {
 
           ServerApp.in = in;
           ServerApp.out = out;
-
+          
           
           loop: while (true) {
             String request = in.readUTF(); //명령어 읽어옴

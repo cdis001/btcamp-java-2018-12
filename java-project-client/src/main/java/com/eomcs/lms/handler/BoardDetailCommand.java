@@ -18,13 +18,13 @@ public class BoardDetailCommand implements Command {
     int no = Integer.parseInt(keyboard.nextLine());
 
     try {
-      out.writeUTF("/board/delete");
+      out.writeUTF("/board/detail");
       out.flush();
       if (!in.readUTF().equals("OK"))
         throw new Exception("서버에서 해당 명령어를 처리하지 못 하였습니다.");
       out.writeInt(no);
       out.flush();
-
+      
       String status = in.readUTF();
       if (!status.equals("OK")) {
         throw new Exception("서버에서 게시글 가져오기 실패");

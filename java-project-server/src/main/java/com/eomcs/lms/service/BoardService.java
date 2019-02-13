@@ -3,7 +3,6 @@ package com.eomcs.lms.service;
 import com.eomcs.lms.domain.Board;
 
 public class BoardService extends AbstractService<Board> {
-  
   public void execute(String request) throws Exception {
 
     switch (request) {
@@ -27,6 +26,8 @@ public class BoardService extends AbstractService<Board> {
         break;
     }
     out.flush();
+    saveData();
+    loadData(filepath);
 
   }
 
