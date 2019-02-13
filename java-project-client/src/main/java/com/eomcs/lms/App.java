@@ -2,34 +2,18 @@ package com.eomcs.lms;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
-import com.eomcs.context.ApplicationContextListener;
-import com.eomcs.lms.domain.Board;
-import com.eomcs.lms.domain.Lesson;
-import com.eomcs.lms.domain.Member;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
 import com.eomcs.lms.handler.BoardListCommand;
 import com.eomcs.lms.handler.BoardUpdateCommand;
 import com.eomcs.lms.handler.Command;
-import com.eomcs.lms.handler.LessonAddCommand;
-import com.eomcs.lms.handler.LessonDeleteCommand;
-import com.eomcs.lms.handler.LessonDetailCommand;
-import com.eomcs.lms.handler.LessonListCommand;
-import com.eomcs.lms.handler.LessonUpdateCommand;
-import com.eomcs.lms.handler.MemberAddCommand;
-import com.eomcs.lms.handler.MemberDeleteCommand;
-import com.eomcs.lms.handler.MemberDetailCommand;
-import com.eomcs.lms.handler.MemberListCommand;
-import com.eomcs.lms.handler.MemberUpdateCommand;
 
 public class App {
 
@@ -40,7 +24,6 @@ public class App {
   Stack<String> commandHistory = new Stack<>();
   Queue<String> commandHistory2 = new LinkedList<>();
 
-  @SuppressWarnings("unchecked")
   public void service() {
 
     Map<String,Command> commandMap = new HashMap<>();
@@ -67,7 +50,9 @@ public class App {
     try (Socket socket = new Socket("localhost", 8888);
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
-
+     
+      System.out.println("서버와 연결되었음.");
+      
       while (true) {
         String command = prompt();
 
@@ -82,12 +67,12 @@ public class App {
 
         if (commandHandler != null) {
           try {
-            commandHandler.execute();
+            commandHandler.execute(in, out);
           } catch (Exception e) {
             System.out.println("명령어 실행 중 오류 발생 : " + e.toString());
           }
         } else if (command.equals("quit")) {
-          System.out.println("안녕!");
+          quit(in, out);
           break;
 
         } else if (command.equals("history")) {
@@ -107,6 +92,16 @@ public class App {
     }
     keyboard.close();
 
+  }
+  
+  private void quit(ObjectInputStream in, ObjectOutputStream out) {
+    try {
+      out.writeUTF("quit");
+      out.flush();
+      System.out.println("서버: " + in.readUTF());
+    } catch (Exception e) {
+    }
+    System.out.println("안녕!");
   }
 
   @SuppressWarnings("unchecked")
