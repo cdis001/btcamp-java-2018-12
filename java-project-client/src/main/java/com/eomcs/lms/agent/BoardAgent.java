@@ -43,6 +43,7 @@ public class BoardAgent {
     try (Socket socket = new Socket(serverAddr, port);
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());) {
+      
       out.writeUTF(rootPath + "/add");
       out.flush();
       if (!in.readUTF().equals("OK"))
@@ -81,7 +82,7 @@ public class BoardAgent {
     try (Socket socket = new Socket(serverAddr, port);
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());) {
-      out.writeUTF(rootPath + "update");
+      out.writeUTF(rootPath + "/update");
       out.flush();
       if (!in.readUTF().equals("OK"))
         throw new Exception("서버에서 해당 명령어를 처리하지 못합니다.");
@@ -100,7 +101,7 @@ public class BoardAgent {
     try (Socket socket = new Socket(serverAddr, port    );
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());) {
-      out.writeUTF(rootPath + "delete");
+      out.writeUTF(rootPath + "/delete");
       out.flush();
       if (!in.readUTF().equals("OK"))
         throw new Exception("서버에서 해당 명령어를 처리하지 못 하였습니다.");

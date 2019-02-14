@@ -6,7 +6,7 @@ import com.eomcs.lms.domain.Board;
 public class BoardDao extends AbstractDao<Board> {
   public BoardDao (String filepath) {
     this.filepath = filepath;
-//    this.loadData(); ->??
+//    this.loadData();
   }
   public void insert(Board board) {
     list.add(board);
