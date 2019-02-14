@@ -1,4 +1,4 @@
-package com.eomcs.lms.service;
+package com.eomcs.lms.dao;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,20 +9,12 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractService<E> {
-  List<E> list;
-  ObjectInputStream in;
-  ObjectOutputStream out;
-  String filepath;
-  
-  public void init(ObjectInputStream in, ObjectOutputStream out) { 
-    this.in = in;
-    this.out = out;
-  }
+public abstract class AbstractDao<E> {
+  protected List<E> list;
+  protected String filepath;
   
   @SuppressWarnings("unchecked")
-  public void loadData(String filepath) {
-    this.filepath = filepath;
+  public void loadData() {
     try(ObjectInputStream in = new ObjectInputStream(
         new BufferedInputStream(
         new FileInputStream(this.filepath)))) {
@@ -46,7 +38,4 @@ public abstract class AbstractService<E> {
       throw new Exception("게시글 파일 저장중 오류 발생: ", e);
     }
   }
-    
-    public abstract void execute(String request) throws Exception;
-  }
-  
+}
