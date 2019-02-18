@@ -3,21 +3,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Scanner;
-import com.eomcs.lms.agent.MemberAgent;
 import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.proxy.MemberDaoProxy;
 
 public class MemberListCommand implements Command {
   
   Scanner keyboard;
+  MemberDaoProxy memberDaoProxy;
   
-  public MemberListCommand(Scanner keyboard) {
+  public MemberListCommand(Scanner keyboard, MemberDaoProxy memberDaoProxy) {
     this.keyboard = keyboard;
+    this.memberDaoProxy = memberDaoProxy;
   }
   
   @Override
   public void execute(ObjectInputStream in, ObjectOutputStream out) {
     try {
-      List<Member> members = MemberAgent.list(in, out);
+      List<Member> members = memberDaoProxy.findAll();
     for (Member member : members) {
       System.out.printf("%3d, %-4s, %-20s, %-15s, %s\n", 
           member.getNo(), member.getName(), 
