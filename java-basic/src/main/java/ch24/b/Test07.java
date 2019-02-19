@@ -5,6 +5,7 @@ public class Test07 {
     
     Thread mainThread = Thread.currentThread();
     System.out.println(mainThread.getPriority());
+    
   }
   
 }
