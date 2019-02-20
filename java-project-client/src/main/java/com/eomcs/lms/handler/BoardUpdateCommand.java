@@ -1,14 +1,14 @@
 package com.eomcs.lms.handler;
 import java.util.Scanner;
+import com.eomcs.lms.dao.BoardDaoImpl;
 import com.eomcs.lms.domain.Board;
-import com.eomcs.lms.proxy.BoardDaoProxy;
 
 public class BoardUpdateCommand implements Command {
 
   Scanner keyboard;
-  BoardDaoProxy boardDao;
+  BoardDaoImpl boardDao;
   
-  public BoardUpdateCommand(Scanner keyboard, BoardDaoProxy boardDao) {
+  public BoardUpdateCommand(Scanner keyboard, BoardDaoImpl boardDao) {
     this.keyboard = keyboard;
     this.boardDao = boardDao;
   }

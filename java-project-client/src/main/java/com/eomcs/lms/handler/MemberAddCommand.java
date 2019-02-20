@@ -1,15 +1,15 @@
 package com.eomcs.lms.handler;
 import java.sql.Date;
 import java.util.Scanner;
+import com.eomcs.lms.dao.MemberDaoImpl;
 import com.eomcs.lms.domain.Member;
-import com.eomcs.lms.proxy.MemberDaoProxy;
 
 public class MemberAddCommand implements Command {
   
   Scanner keyboard;
-  MemberDaoProxy memberDaoProxy;
+  MemberDaoImpl memberDaoProxy;
   
-  public MemberAddCommand(Scanner keyboard, MemberDaoProxy memberDaoProxy) {
+  public MemberAddCommand(Scanner keyboard, MemberDaoImpl memberDaoProxy) {
     this.keyboard = keyboard;
     this.memberDaoProxy = memberDaoProxy;
   }

@@ -1,13 +1,13 @@
 package com.eomcs.lms.handler;
 import java.util.Scanner;
-import com.eomcs.lms.proxy.MemberDaoProxy;
+import com.eomcs.lms.dao.MemberDaoImpl;
 
 public class MemberDeleteCommand implements Command {
   
   Scanner keyboard;
-  MemberDaoProxy memberDaoProxy;
+  MemberDaoImpl memberDaoProxy;
   
-  public MemberDeleteCommand(Scanner keyboard, MemberDaoProxy memberDaoProxy) {
+  public MemberDeleteCommand(Scanner keyboard, MemberDaoImpl memberDaoProxy) {
     this.keyboard = keyboard;
     this.memberDaoProxy = memberDaoProxy;
   }

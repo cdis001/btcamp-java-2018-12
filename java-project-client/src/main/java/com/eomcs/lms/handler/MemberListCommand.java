@@ -3,15 +3,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Scanner;
+import com.eomcs.lms.dao.MemberDaoImpl;
 import com.eomcs.lms.domain.Member;
-import com.eomcs.lms.proxy.MemberDaoProxy;
 
 public class MemberListCommand implements Command {
   
   Scanner keyboard;
-  MemberDaoProxy memberDaoProxy;
+  MemberDaoImpl memberDaoProxy;
   
-  public MemberListCommand(Scanner keyboard, MemberDaoProxy memberDaoProxy) {
+  public MemberListCommand(Scanner keyboard, MemberDaoImpl memberDaoProxy) {
     this.keyboard = keyboard;
     this.memberDaoProxy = memberDaoProxy;
   }

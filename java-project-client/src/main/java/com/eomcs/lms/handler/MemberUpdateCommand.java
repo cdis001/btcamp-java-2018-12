@@ -1,15 +1,15 @@
 package com.eomcs.lms.handler;
 import java.sql.Date;
 import java.util.Scanner;
+import com.eomcs.lms.dao.MemberDaoImpl;
 import com.eomcs.lms.domain.Member;
-import com.eomcs.lms.proxy.MemberDaoProxy;
 
 public class MemberUpdateCommand implements Command {
   
   Scanner keymember;
-  MemberDaoProxy memberDaoProxy;
+  MemberDaoImpl memberDaoProxy;
   
-  public MemberUpdateCommand(Scanner keymember, MemberDaoProxy memberDaoProxy) {
+  public MemberUpdateCommand(Scanner keymember, MemberDaoImpl memberDaoProxy) {
     this.keymember = keymember;
     this.memberDaoProxy = memberDaoProxy;
   }

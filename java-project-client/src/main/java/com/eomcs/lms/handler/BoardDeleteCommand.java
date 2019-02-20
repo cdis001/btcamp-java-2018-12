@@ -1,13 +1,13 @@
 package com.eomcs.lms.handler;
 import java.util.Scanner;
-import com.eomcs.lms.proxy.BoardDaoProxy;
+import com.eomcs.lms.dao.BoardDaoImpl;
 
 public class BoardDeleteCommand implements Command {
   
   Scanner keyboard;
-  BoardDaoProxy boardDao;
+  BoardDaoImpl boardDao;
   
-  public BoardDeleteCommand(Scanner keyboard, BoardDaoProxy boardDao) {
+  public BoardDeleteCommand(Scanner keyboard, BoardDaoImpl boardDao) {
     this.keyboard = keyboard;
     this.boardDao = boardDao;
   }

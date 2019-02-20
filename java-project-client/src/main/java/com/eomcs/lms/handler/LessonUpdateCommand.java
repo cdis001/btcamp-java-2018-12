@@ -3,15 +3,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.util.Scanner;
+import com.eomcs.lms.dao.LessonDaoImpl;
 import com.eomcs.lms.domain.Lesson;
-import com.eomcs.lms.proxy.LessonDaoProxy;
 
 public class LessonUpdateCommand implements Command {
 
   Scanner keyboard;
-  LessonDaoProxy lessonDaoProxy;
+  LessonDaoImpl lessonDaoProxy;
 
-  public LessonUpdateCommand(Scanner keyboard, LessonDaoProxy lessonDaoProxy) {
+  public LessonUpdateCommand(Scanner keyboard, LessonDaoImpl lessonDaoProxy) {
     this.keyboard = keyboard;
     this.lessonDaoProxy = lessonDaoProxy;
   }
