@@ -1,0 +1,6 @@
+
+plugins {
+    id 'java' //자바 빌드 명령을 사용할 수 있다
+    id 'application' //자바 애플리케이션을 실행할 수 있다
+    id 'eclipse' //이클립스 설정파일 생성 가능
+}
