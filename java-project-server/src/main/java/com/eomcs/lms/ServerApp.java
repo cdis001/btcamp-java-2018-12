@@ -6,8 +6,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import com.eomcs.lms.dao.BoardDaoImpl;
 import com.eomcs.lms.dao.LessonDaoImpl;
 import com.eomcs.lms.dao.MemberDaoImpl;
@@ -24,8 +22,6 @@ public class ServerApp {
 
   static HashMap<String, Service> serviceMap;
   static Set<String> serviceKeySet;
-
-  static ExecutorService excutorService = Executors.newCachedThreadPool();//스레드 풀
 
   public static void main(String[] args) {
 
@@ -60,7 +56,8 @@ public class ServerApp {
       System.out.println("서버 시작!");
 
       while (true) {
-        excutorService.submit(new RequestHandler(serverSocket.accept()));
+        new RequestProcessorThread(serverSocket.accept()).start();
+
       }
 
     } catch (Exception e) {
@@ -69,23 +66,33 @@ public class ServerApp {
     }
 
   }
-  
-  static class RequestHandler implements Runnable{
-    static int count = 0;
 
-    Socket socket;
-    String name;
-
-    public RequestHandler(Socket socket) {
-      this.socket = socket;
-      this.name = "핸들러-" + count++; 
-      
-      System.out.printf("[%s:%s] 핸들러가 생성됨\n", 
-          Thread.currentThread().getName(), this.getName());
+  static void quit(ObjectInputStream in, ObjectOutputStream out) throws Exception {
+    try {
+      boardDaoImpl.saveData();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
     }
 
-    public String getName() {
-      return this.name;
+    try {
+      lessonDaoImpl.saveData();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+
+    try {
+      memberDaoImpl.saveData();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    out.writeUTF("종료합니다");
+  }
+
+  static class RequestProcessorThread extends Thread {
+    Socket socket;
+
+    public RequestProcessorThread(Socket socket) {
+      this.socket = socket;
     }
 
     @Override
@@ -94,15 +101,26 @@ public class ServerApp {
           ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
           ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
 
-        System.out.printf("[%s:%s] 클라이언트와 연결되었음.\n",
-            Thread.currentThread().getName(), this.getName());
+        System.out.println("클라이언트와 연결되었음.");
 
         String request = in.readUTF(); //명령어 읽어옴
-        System.out.printf("[%s:%s] %s\n",Thread.currentThread().getName(), this.getName(), request);
+        System.out.println(request);
 
         Service service = GetService(request);
 
-        if (service == null) {
+        if(request.equalsIgnoreCase("quit")) {
+          quit(in, out);
+          out.flush();
+        }
+
+        String serviceName = null;
+        for(String key : serviceKeySet) {
+          if(request.startsWith(key)){
+            serviceName = key;
+            break;
+          }
+        }
+        if (serviceName == null) {
           out.writeUTF("FAIL");
 
         } else {
@@ -113,9 +131,7 @@ public class ServerApp {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      try{Thread.currentThread().sleep(8000);} catch(Exception e) {}
-      System.out.printf("[%s:%s]클라이언트와의 연결을 끊었음.\n", 
-          Thread.currentThread().getName(), this.getName());
+      System.out.println("클라이언트와의 연결을 끊었음.");
     }
 
     static Service GetService(String request) {
@@ -127,4 +143,6 @@ public class ServerApp {
       return null;
     }
   }
+
+
 }

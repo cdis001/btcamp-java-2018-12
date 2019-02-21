@@ -14,6 +14,8 @@ import com.eomcs.lms.service.MemberService;
 import com.eomcs.lms.service.Service;
 import java.util.Set;
 
+//*client_App*
+
 public class ServerApp {
 
   static BoardDao boardDao = null;

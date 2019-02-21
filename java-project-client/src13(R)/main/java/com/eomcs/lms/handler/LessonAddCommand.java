@@ -2,7 +2,6 @@ package com.eomcs.lms.handler;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Date;
-import java.util.List;
 import java.util.Scanner;
 import com.eomcs.lms.agent.LessonAgent;
 import com.eomcs.lms.domain.Lesson;
@@ -10,9 +9,11 @@ import com.eomcs.lms.domain.Lesson;
 public class LessonAddCommand implements Command {
 
   Scanner keyboard;
+  LessonAgent lessonAgent;
 
-  public LessonAddCommand(Scanner keyboard) {
+  public LessonAddCommand(Scanner keyboard, LessonAgent lessonAgent) {
     this.keyboard = keyboard;
+    this.lessonAgent = lessonAgent;
   }
 
   @Override
@@ -41,7 +42,7 @@ public class LessonAddCommand implements Command {
     lesson.setDayHours(Integer.parseInt(keyboard.nextLine()));
 
     try {
-      LessonAgent.add(lesson, in, out);
+      lessonAgent.add(lesson);
     }catch (Exception e) {
       System.out.printf("게시글 저장 오류: &s\n",e.getMessage());
     }

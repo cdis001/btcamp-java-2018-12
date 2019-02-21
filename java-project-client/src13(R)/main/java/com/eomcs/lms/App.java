@@ -6,6 +6,8 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 import com.eomcs.lms.agent.BoardAgent;
+import com.eomcs.lms.agent.LessonAgent;
+import com.eomcs.lms.agent.MemberAgent;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
@@ -23,6 +25,8 @@ import com.eomcs.lms.handler.MemberDetailCommand;
 import com.eomcs.lms.handler.MemberListCommand;
 import com.eomcs.lms.handler.MemberUpdateCommand;
 
+//member list 출력 오류
+
 public class App {
 
   Scanner keyboard = new Scanner(System.in);
@@ -34,17 +38,19 @@ public class App {
     Map<String,Command> commandMap = new HashMap<>();
 
     // 핸들러가 사용할 데이터는 context에서 꺼내 준다.
-    commandMap.put("/lesson/add", new LessonAddCommand(keyboard));
-    commandMap.put("/lesson/list", new LessonListCommand(keyboard));
-    commandMap.put("/lesson/detail", new LessonDetailCommand(keyboard));
-    commandMap.put("/lesson/update", new LessonUpdateCommand(keyboard));
-    commandMap.put("/lesson/delete", new LessonDeleteCommand(keyboard));
-
-    commandMap.put("/member/add", new MemberAddCommand(keyboard));
-    commandMap.put("/member/list", new MemberListCommand(keyboard));
-    commandMap.put("/member/detail", new MemberDetailCommand(keyboard));
-    commandMap.put("/member/update", new MemberUpdateCommand(keyboard));
-    commandMap.put("/member/delete", new MemberDeleteCommand(keyboard));
+    LessonAgent lessonAgent = new LessonAgent("localhost", 8888, "/lesson");
+    commandMap.put("/lesson/add", new LessonAddCommand(keyboard, lessonAgent));
+    commandMap.put("/lesson/list", new LessonListCommand(keyboard, lessonAgent));
+    commandMap.put("/lesson/detail", new LessonDetailCommand(keyboard, lessonAgent));
+    commandMap.put("/lesson/update", new LessonUpdateCommand(keyboard, lessonAgent));
+    commandMap.put("/lesson/delete", new LessonDeleteCommand(keyboard, lessonAgent));
+    
+    MemberAgent memberAgent = new MemberAgent("localhost", 8888, "/lesson");
+    commandMap.put("/member/add", new MemberAddCommand(keyboard, memberAgent));
+    commandMap.put("/member/list", new MemberListCommand(keyboard, memberAgent));
+    commandMap.put("/member/detail", new MemberDetailCommand(keyboard, memberAgent));
+    commandMap.put("/member/update", new MemberUpdateCommand(keyboard, memberAgent));
+    commandMap.put("/member/delete", new MemberDeleteCommand(keyboard, memberAgent));
 
     BoardAgent boardAgent = new BoardAgent("localhost", 8888, "/board");
     commandMap.put("/board/add", new BoardAddCommand(keyboard, boardAgent));

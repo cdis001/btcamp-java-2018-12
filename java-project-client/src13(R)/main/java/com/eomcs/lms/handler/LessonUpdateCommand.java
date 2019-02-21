@@ -9,9 +9,11 @@ import com.eomcs.lms.domain.Lesson;
 public class LessonUpdateCommand implements Command {
 
   Scanner keyboard;
+  LessonAgent lessonAgent;
 
-  public LessonUpdateCommand(Scanner keyboard) {
+  public LessonUpdateCommand(Scanner keyboard, LessonAgent lessonAgent) {
     this.keyboard = keyboard;
+    this.lessonAgent = lessonAgent;
   }
 
   @Override
@@ -20,7 +22,7 @@ public class LessonUpdateCommand implements Command {
     int no = Integer.parseInt(keyboard.nextLine());
 
     try {
-      Lesson lesson = LessonAgent.get(no, in, out);
+      Lesson lesson = lessonAgent.get(no);
       Lesson temp = lesson.clone();
       
       System.out.printf("내용? ");
@@ -53,7 +55,7 @@ public class LessonUpdateCommand implements Command {
       if (input.length() > 0) 
         temp.setDayHours(Integer.parseInt(input));
       
-      LessonAgent.update(temp, in, out);
+      lessonAgent.update(temp);
       System.out.println("수업을 변경했습니다.");
     } catch(Exception e) {
       System.out.println("변경 중 오류 발생!");
