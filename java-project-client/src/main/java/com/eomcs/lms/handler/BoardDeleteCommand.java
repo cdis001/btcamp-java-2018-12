@@ -1,13 +1,13 @@
 package com.eomcs.lms.handler;
 import java.util.Scanner;
-import com.eomcs.lms.dao.BoardDao;
+import com.eomcs.lms.proxy.BoardDaoProxy;
 
 public class BoardDeleteCommand implements Command {
   
   Scanner keyboard;
-  BoardDao boardDao;
+  BoardDaoProxy boardDao;
   
-  public BoardDeleteCommand(Scanner keyboard, BoardDao boardDao) {
+  public BoardDeleteCommand(Scanner keyboard, BoardDaoProxy boardDao) {
     this.keyboard = keyboard;
     this.boardDao = boardDao;
   }
@@ -18,14 +18,11 @@ public class BoardDeleteCommand implements Command {
     int no = Integer.parseInt(keyboard.nextLine());
 
     try {
-      if (boardDao.delete(no) == 0) {
-        System.out.println("해당 번호의 게시물이 없습니다.");
-        return;
-      }
-      System.out.println("삭제했습니다.");
-      
-    } catch (Exception e) {
-      System.out.printf("실행 오류! : %s\n", e.getMessage());
+      boardDao.delete(no);
+      System.out.println("게시물 삭제 완료!");
+    }catch(Exception e) {
+      System.out.printf("게시글 목록 삭제 오류: %s\n",e.getMessage());
     }
   }
+  
 }
