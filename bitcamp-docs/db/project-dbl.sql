@@ -4,6 +4,10 @@ drop table if exists lms_member;
 
 drop table if exists lms_board;
 
+drop table if exists lms_photo;
+
+drop table if exists lms_photo_file;
+
 
 create table lms_lesson( 
   lesson_id int not null auto_increment primary key comment '수업데이터 식별 번호', 
@@ -31,3 +35,21 @@ create table lms_board(
   cdt datetime default now() comment '생성일',
   vw_cnt int default 0 comment '조회수'
 ) comment '게시판';
+
+create table lms_photo(
+  photo_id int not null auto_increment primary key comment '사진 게시물 번호',
+  lesson_id int not null comment '수업 번호',
+  titl varchar(255) not null comment '제목',
+  cdt datetime default now() comment '생성일',
+  vw_cnt int default 0 comment '조회수',
+  constraint fk_photo_to_lesson foreign key (lesson_id)
+    references lms_lesson (lesson_id)
+) comment '사진게시물';
+
+create table lms_photo_file(
+  photo_file_id int not null auto_increment primary key comment '사진 파일 식별 번호',
+  file_path varchar(255) not null, 
+  constraint fk_photo_file_to_photo foreign key (photo_id)
+    references lms_photo (photo_id),
+  photo_id int not null
+) comment '사진 게시물 첨부파일 테이블';
