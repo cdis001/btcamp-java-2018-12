@@ -53,7 +53,7 @@ from test1;
 
 /* as를 생략해도 된다.*/
 select 
-    no as num, 
+    no num, 
     concat(name,'(',class,')') title 
 from test1; 
 ``` 
@@ -78,7 +78,7 @@ where no > 5;
 select * from test1;
 
 /* 재직자 또는 java100기 학생만 조회하라!*/
-select no, name
+select no, name, class
 from test1
 where working='Y' or class='java100';
 
@@ -88,15 +88,15 @@ from test1
 where working='Y' and class='java100';
 
 /* 재직자가 아닌 사람만 조회하라!*/
-select no, name
+select no, name, working
 from test1
 where not working = 'Y';
 
-select no, name
+select no, name, working
 from test1
 where working != 'Y';
 
-select no, name
+select no, name, working
 from test1
 where working <> 'Y';
 
@@ -106,7 +106,7 @@ update test1 set
 where (no % 2) = 0;
 
 /* 학생 번호가 3의 배수인 경우 전화번호를 '2222'로 변경하라*/
-update test16 set
+update test1 set
   tel = '2222'
 where (no % 3) = 0;
 
@@ -124,6 +124,10 @@ where tel is not null;
 select *
 from test1
 where not (tel is null);
+
+select *
+from test1
+where not tel is null;
 
 /* 전화 번호가 없는 학생만 조회하라!*/
 /* => null인지 여부를 가릴 때는 = 연산자가 아닌 is 연산자를 사용해야 한다.*/

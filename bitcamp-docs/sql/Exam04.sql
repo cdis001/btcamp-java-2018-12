@@ -44,7 +44,7 @@ insert into test2(filepath, bno) values('c:/download/f.gif', 10);
 
 ## FK 제약 조건이 없을 때
 - 첨부파일 데이터를 입력할 때 존재하지 않는 게시물 번호가 들어 갈 수 있다.
-- 그러면 첨부파일 데이터를 무효한 데이타 된다.
+- 그러면 첨부파일 데이터를 무효한 데이터가 된다.
 ```
 insert into test2(filepath, bno) values('c:/download/x.gif', 100);
 ```
