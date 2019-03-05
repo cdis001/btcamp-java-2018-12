@@ -8,17 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.domain.Lesson;
+import com.eomcs.util.DataSource;
 
 public class LessonDaoImpl implements LessonDao {
 
-  // DAO가 사용하는 커넥션 객체를 외부에서 주입 받는다.
-  Connection con;
+  DataSource dataSource;
   
-  public LessonDaoImpl(Connection con) {
-    this.con = con;
+  public LessonDaoImpl (DataSource dataSource) {
+    this.dataSource = dataSource;
   }
   
   public List<Lesson> findAll() {
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "select lesson_id, titl, sdt, edt, tot_hr from lms_lesson"
         + " order by lesson_id desc")) {
@@ -44,6 +45,8 @@ public class LessonDaoImpl implements LessonDao {
   }
 
   public void insert(Lesson lesson) {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "insert into lms_lesson(titl,conts,sdt,edt,tot_hr,day_hr)"
         + " values(?,?,?,?,?,?)")) {
@@ -63,6 +66,8 @@ public class LessonDaoImpl implements LessonDao {
   }
 
   public Lesson findByNo(int no) {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "select lesson_id, titl, conts, sdt, edt, tot_hr, day_hr"
         + " from lms_lesson"
@@ -93,6 +98,8 @@ public class LessonDaoImpl implements LessonDao {
   }
 
   public int update(Lesson lesson) {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "update lms_lesson set"
         + " titl = ?,"
@@ -118,6 +125,8 @@ public class LessonDaoImpl implements LessonDao {
   }
 
   public int delete(int no) {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "delete from lms_lesson where lesson_id = ?")) {
       

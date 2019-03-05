@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
+import com.eomcs.util.DataSource;
 
 public class BoardDaoImpl implements BoardDao {
 
-  // 외부에서 커넥션 객체를 주입 받는다.
-  Connection con;
-
-  public BoardDaoImpl(Connection con) {
-    this.con = con;
+  DataSource dataSource;
+  
+  public BoardDaoImpl (DataSource dataSource) {
+    this.dataSource = dataSource;
   }
-
+  
   public List<Board> findAll() {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "select board_id, conts, cdt, vw_cnt from lms_board"
             + " order by board_id desc")) {
@@ -43,6 +45,7 @@ public class BoardDaoImpl implements BoardDao {
   }
 
   public void insert(Board board) {
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "insert into lms_board(conts) values(?)")) {
 
@@ -54,6 +57,7 @@ public class BoardDaoImpl implements BoardDao {
   }
 
   public Board findByNo(int no) {
+    Connection con = dataSource.getConnection();
     try {
       // 조회수 증가시키기
       try (PreparedStatement stmt = con.prepareStatement(
@@ -87,6 +91,7 @@ public class BoardDaoImpl implements BoardDao {
   }
 
   public int update(Board board) {
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "update lms_board set conts = ? where board_id = ?")) {
 
@@ -100,6 +105,7 @@ public class BoardDaoImpl implements BoardDao {
   }
 
   public int delete(int no) {
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "delete from lms_board where board_id = ?")) {
 

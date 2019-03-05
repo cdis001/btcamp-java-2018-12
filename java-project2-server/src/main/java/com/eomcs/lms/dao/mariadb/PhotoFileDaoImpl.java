@@ -6,19 +6,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import com.eomcs.lms.dao.PhotoFileDao;
-import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
+import com.eomcs.util.DataSource;
 
 public class PhotoFileDaoImpl implements PhotoFileDao {
 
-  Connection con;
-
-  public PhotoFileDaoImpl(Connection con) {
-    this.con = con;
+  DataSource dataSource;
+  
+  public PhotoFileDaoImpl(DataSource dataSource) {
+    this.dataSource = dataSource;
   }
   
   @Override
   public List<PhotoFile> findByPhotoBoardNo(int photoboardNo) {
+    
+    Connection con = dataSource.getConnection();
+    
     try (PreparedStatement stmt = con.prepareStatement(
         "select photo_file_id, photo_id, file_path"
         + " from lms_photo_file"
@@ -46,6 +49,8 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
   }
   @Override
   public void insert(PhotoFile photoFile) {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "insert into lms_photo_file(file_path, photo_id) values(?, ?)")) {
 
@@ -113,6 +118,8 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
 
   @Override
   public int deleteByPhotoBoardNo(int photoBoardNO) {
+    
+    Connection con = dataSource.getConnection();
     try (PreparedStatement stmt = con.prepareStatement(
         "delete from lms_photo_file where photo_id = ?")) {
 
