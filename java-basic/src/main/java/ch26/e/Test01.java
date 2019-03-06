@@ -26,7 +26,7 @@ public class Test01 {
     }
     System.out.println("--------------------------------");
     
-    Board board = sqlSession.selectOne("board.select2", 5);
+    Board board = sqlSession.selectOne("board.select2", 11);
     
     System.out.println(board);
     

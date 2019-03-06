@@ -19,6 +19,10 @@
 	<select id="select2" resultMap="boardMap" parameterType="int">
     select * from x_board where board_id = #{amuguna}
   </select>
+  
+  <select id="select3" resultMap="boardMap" parameterType="string">
+    select * from x_board where title like concat('%', #{value}, '%')
+  </select>
 
   <insert id="insert1" parameterType="board">
   insert into x_board(title, contents)
