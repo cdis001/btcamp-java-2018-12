@@ -23,6 +23,10 @@
   <select id="select3" resultMap="boardMap" parameterType="string">
     select * from x_board where title like concat('%', #{value}, '%')
   </select>
+  
+  <select id="select4" resultType="board" parameterType="int">
+    select * from x_board where board_id = #{amuguna}
+  </select>
 
   <insert id="insert1" parameterType="board">
   insert into x_board(title, contents)
@@ -32,6 +36,23 @@
   <insert id="insert2" parameterType="hashmap">
   insert into x_board(title, contents)
   values(#{title},#{contents})
+  </insert>
+  
+  <update id="update1" parameterType="board">
+  update x_board set 
+    title = #{title}, contents = #{contents}
+  where
+    board_id = #{no}
+  </update>
+  
+  <delete id="delete1" parameterType="int">
+  delete from x_board 
+  where
+    board_id = #{no}
+  </delete>
+
+  <insert id="insert3"  parameterType="board">
+    select * from x_board
   </insert>
 
 </mapper>
