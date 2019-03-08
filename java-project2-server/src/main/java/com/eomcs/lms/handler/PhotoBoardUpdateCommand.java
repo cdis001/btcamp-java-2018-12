@@ -29,7 +29,7 @@ public class PhotoBoardUpdateCommand extends AbstractCommand {
     }
     
     String input = response.requestString(
-        String.format("내용(%s)?", photoBoard.getTitle()));
+        String.format("제목(%s)?", photoBoard.getTitle()));
     if (input.length() > 0) 
       board.setTitle(input);
     
@@ -38,7 +38,14 @@ public class PhotoBoardUpdateCommand extends AbstractCommand {
     if (input.length() > 0) 
       board.setLessonNo(Integer.parseInt(input));
 
-    photoBoardDao.update(board);
+    if (board.getTitle() != null
+        ||board.getLessonNo() > 0) {
+      
+      photoBoardDao.update(board);
+      response.println("변경했습니다.");
+    } else {
+      response.println("변경을 취소하였습니다.");
+    }
     
     response.println("사진파일: ");
     List<PhotoFile> files = photoFileDao.findByPhotoBoardNo(photoBoard.getNo());

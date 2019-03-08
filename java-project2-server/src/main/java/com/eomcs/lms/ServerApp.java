@@ -28,13 +28,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.eomcs.lms.context.ApplicationContextListener;
 import com.eomcs.lms.handler.Command;
-import com.eomcs.util.DataSource;
 
 public class ServerApp {
 
@@ -99,10 +96,6 @@ public class ServerApp {
     @Override
     public void run() {
 
-      DataSource dataSource = (DataSource) context.get("dataSource");
-
-      Connection con = dataSource.getConnection();
-
       try (Socket socket = this.socket;
           BufferedReader in = new BufferedReader(
               new InputStreamReader(socket.getInputStream()));
@@ -121,12 +114,7 @@ public class ServerApp {
 
         try {
           commandHandler.execute(in, out);
-          con.commit();
         } catch (Exception e) {
-          try {
-            con.rollback();
-          } catch (SQLException e1) {
-          }
           out.println("실행 오류: " + e.getMessage());
         }
         out.println("!end!");
@@ -136,9 +124,7 @@ public class ServerApp {
 
         System.out.println("명령어 실행 중 오류 발생 : " + e.toString());
         e.printStackTrace();
-      } finally {
-        dataSource.returnConnection(con);
-      }
+      } 
     }
   }
 }

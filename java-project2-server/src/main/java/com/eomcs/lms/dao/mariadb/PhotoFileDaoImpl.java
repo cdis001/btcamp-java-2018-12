@@ -1,64 +1,33 @@
 package com.eomcs.lms.dao.mariadb;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoFile;
-import com.eomcs.util.DataSource;
 
 public class PhotoFileDaoImpl implements PhotoFileDao {
 
-  DataSource dataSource;
-  
-  public PhotoFileDaoImpl(DataSource dataSource) {
-    this.dataSource = dataSource;
+  SqlSessionFactory sqlSessionFactory;
+
+  public PhotoFileDaoImpl (SqlSessionFactory sqlSessionFactory) {
+    this.sqlSessionFactory = sqlSessionFactory;
   }
   
   @Override
   public List<PhotoFile> findByPhotoBoardNo(int photoboardNo) {
     
-    Connection con = dataSource.getConnection();
-    
-    try (PreparedStatement stmt = con.prepareStatement(
-        "select photo_file_id, photo_id, file_path"
-        + " from lms_photo_file"
-        + " where photo_id = ?"
-        + " order by photo_file_id desc")) {
-
-      stmt.setInt(1, photoboardNo);
-      
-      try (ResultSet rs = stmt.executeQuery()) {
-
-        ArrayList<PhotoFile> list = new ArrayList<>();
-        while (rs.next()) {
-          PhotoFile photoFile = new PhotoFile();
-          photoFile.setNo(rs.getInt("photo_file_id"));
-          photoFile.setPhotoBoardNo(rs.getInt("photo_id"));
-          photoFile.setFilePath(rs.getString("file_path"));
-
-          list.add(photoFile);
-        }
-        return list;
-      }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      return sqlSession.selectList("PhotoFileMapper.findByPhotoBoardNo",photoboardNo);
     }
-  }
+  } 
   @Override
   public void insert(PhotoFile photoFile) {
     
-    Connection con = dataSource.getConnection();
-    try (PreparedStatement stmt = con.prepareStatement(
-        "insert into lms_photo_file(file_path, photo_id) values(?, ?)")) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      stmt.setString(1, photoFile.getFilePath());
-      stmt.setInt(2, photoFile.getPhotoBoardNo());
-      stmt.executeUpdate();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+      sqlSession.update("PhotoFileMapper.insert", photoFile);
+      sqlSession.commit();
     }
   }
 
@@ -119,15 +88,13 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
   @Override
   public int deleteByPhotoBoardNo(int photoBoardNO) {
     
-    Connection con = dataSource.getConnection();
-    try (PreparedStatement stmt = con.prepareStatement(
-        "delete from lms_photo_file where photo_id = ?")) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      stmt.setInt(1, photoBoardNO);
-
-      return stmt.executeUpdate();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+      int count = sqlSession.delete(
+          "PhotoFileMapper.deleteByPhotoBoardNo",
+          photoBoardNO);
+      sqlSession.commit();
+      return count;
     }
   }
 }

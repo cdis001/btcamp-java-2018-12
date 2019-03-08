@@ -21,7 +21,7 @@ public class PhotoBoardDetailCommand extends AbstractCommand {
     
     int no = response.requestInt("번호?");
     
-    PhotoBoard photoboard = photoboardDao.findByNo(no);
+    PhotoBoard photoboard = photoboardDao.findByNoWithFile(no);
       if (photoboard == null) {
         response.println("해당 번호의 게시물이 없습니다.");
         return;
@@ -29,9 +29,12 @@ public class PhotoBoardDetailCommand extends AbstractCommand {
       response.println(String.format("내용: %s", photoboard.getTitle()));
       response.println(String.format("작성일: %s", photoboard.getCreatedDate()));
       response.println(String.format("조회수: %d", photoboard.getViewCount()));
-      response.println(String.format("레슨번호: %d", photoboard.getLessonNo()));
+      response.println(String.format("수업: %s(%s ~ %s)",
+          photoboard.getLesson().getTitle(),
+          photoboard.getLesson().getStartDate(),
+          photoboard.getLesson().getEndDate()));
       
-      List<PhotoFile> files = photofileDao.findByPhotoBoardNo(no);
+      List<PhotoFile> files = photoboard.getFiles();
       for (PhotoFile file : files) {
         response.println(String.format("사진파일: %s", file.getFilePath()));
       }

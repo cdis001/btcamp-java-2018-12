@@ -28,7 +28,9 @@
 			<id column="board_file_id" property="no" />
 			<result column="file_path" property="filePath" />
 			<result column="boardNo" property="boardNo" />
-			<!-- <result column="board_id" property="boardNo" /> -->
+			<!-- 
+			<result column="board_id" property="boardNo" />
+			 -->
 		</collection>
 	</resultMap>
 
