@@ -22,12 +22,11 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
     }
   } 
   @Override
-  public void insert(PhotoFile photoFile) {
+  public void insert(List<PhotoFile> photoFiles) {
     
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      sqlSession.update("PhotoFileMapper.insert", photoFile);
-      sqlSession.commit();
+      sqlSession.update("PhotoFileMapper.insert", photoFiles);
     }
   }
 
@@ -90,11 +89,9 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
     
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      int count = sqlSession.delete(
+      return sqlSession.delete(
           "PhotoFileMapper.deleteByPhotoBoardNo",
           photoBoardNO);
-      sqlSession.commit();
-      return count;
     }
   }
 }

@@ -13,13 +13,17 @@
 		<result column="tel" property="tel" />
 		<result column="rdt" property="registeredDate" />
 	</resultMap>
+	
+	<sql id="default-columns">
+      member_id,
+       name, 
+       email, 
+       tel
+	</sql>
 
 	<select id="findAll" resultMap="memberMap">
-		select
-	   	member_id,
-		   name, 
-		   email, 
-		   tel
+	select
+	<include refid="default-columns"/>
 		from
 		  lms_member
 		order by
@@ -28,11 +32,9 @@
 	
 	<select id="findByNo" resultMap="memberMap" parameterType="int">
 	select
+	<include refid="default-columns"/>,
 	 member_id,
-	 name, 
-	 photo,
-	 email, 
-	 tel 
+	 photo
   from
    lms_member
   where
@@ -40,21 +42,17 @@
 	</select>
 	
 	<select id="findBykeyword" resultMap="memberMap" parameterType="string">
+	<bind name="pattern1" value="'%' + _parameter + '%'"/>
 	select
-   member_id,
-   name, 
-   email, 
-   tel 
+   <include refid="default-columns"/>
   from
    lms_member
 	 <if test="value != null">
 	<where>
-	  name like concat('%', #{value}, '%')
-    or email like concat('%', #{value}, '%')
-    or tel like concat('%', #{value}, '%')
+	  name like #{pattern1}
+    or email like #{pattern1}
+    or tel like #{pattern1}
     order by name asc
-    <!-- 
-     -->
    </where>
    </if>
 	</select>

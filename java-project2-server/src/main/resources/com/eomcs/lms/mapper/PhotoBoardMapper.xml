@@ -32,18 +32,32 @@
       <result column="photoBoardNo" property="photoBoardNo" />
     </collection>
   </resultMap>
+  
+  <sql id="select1">
+  select
+     photo_id, 
+     titl, 
+     cdt, 
+     vw_cnt, 
+     lesson_id
+   from
+    lms_photo
+  </sql>
 
 	<select id="findAll" resultMap="photoBoardMap" parameterType="map">
-		select
-		 photo_id, 
-		 titl, 
-		 cdt, 
-		 vw_cnt, 
-		 lesson_id
-	 from
-	  lms_photo
+	<if test="keyword != null">
+	<bind name="pattern1" value="'%' + _parameter + '%'"/>
+		</if>
+		<include refid="select1"/>
 	  <where>
-	   <if test="lessonNo != null">lesson_id = #{lessonNo}</if>
+	   <if test="lessonNo != null">or lesson_id = #{lessonNo}</if>
+	   <if test="pattern1 != null">or titl like #{pattern1}</if>
+	   
+	   <!-- 자바에서 검색 패턴을 만든 경우, 다음과 같이 그냥 keyword 값을 사용하면 된다. -->
+      <!--  
+      <if test="keyword != null">or titl like #{keyword}</if>
+      --> 
+	   
 	  </where>
    order by
     photo_id desc
@@ -70,14 +84,7 @@
   </update>
 	
 	<select id="findByNo" resultMap="photoBoardMap" parameterType="int">
-	select
-	 photo_id, 
-	 titl, 
-	 cdt, 
-	 vw_cnt, 
-	 lesson_id 
-	from
-	 lms_photo
+	<include refid="select1"/>
   where
    photo_id = #{no}
 	</select>
@@ -126,7 +133,6 @@
 	 lms_photo 
 	 <set>
      <if test="title != null">titl = #{title}</if>
-     <if test="lesson_id > 0">lesson_id = #{lessonNo}</if>
    </set>
    where
       photo_id = #{no}

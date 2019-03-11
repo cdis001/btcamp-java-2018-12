@@ -31,7 +31,10 @@ import com.eomcs.lms.handler.PhotoBoardAddCommand;
 import com.eomcs.lms.handler.PhotoBoardDeleteCommand;
 import com.eomcs.lms.handler.PhotoBoardDetailCommand;
 import com.eomcs.lms.handler.PhotoBoardListCommand;
+import com.eomcs.lms.handler.PhotoBoardSearchCommand;
 import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
+import com.eomcs.mybatis.SqlSessionFactoryProxy;
+import com.eomcs.mybatis.TransactionManager;
 
 public class ApplicationInitializer implements ApplicationContextListener {
 
@@ -43,21 +46,27 @@ public class ApplicationInitializer implements ApplicationContextListener {
             Resources.getResourceAsStream(
                 "com/eomcs/lms/conf/mybatis-config.xml"));
       
-      // DAO 객체 준비
-      LessonDaoImpl lessonDao = new LessonDaoImpl(sqlSessionFactory); //factory를 넣는 이유?
-      MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactory);
-      BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactory);
-      PhotoBoardDaoImpl photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactory);
-      PhotoFileDaoImpl photoFileDao = new PhotoFileDaoImpl(sqlSessionFactory);
+      SqlSessionFactoryProxy sqlSessionFactoryProxy = 
+          new SqlSessionFactoryProxy(sqlSessionFactory);
       
-      // Command 객체 준비
+      TransactionManager txManager = new TransactionManager(sqlSessionFactoryProxy);
+      
+      LessonDaoImpl lessonDao = new LessonDaoImpl(sqlSessionFactoryProxy); //Proxy넣어주는 이유?
+      MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactoryProxy);
+      BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactoryProxy);
+      PhotoBoardDaoImpl photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactoryProxy);
+      PhotoFileDaoImpl photoFileDao = new PhotoFileDaoImpl(sqlSessionFactoryProxy); 
+      
       
       context.put("/lesson/add", new LessonAddCommand(lessonDao));
       context.put("/lesson/list", new LessonListCommand(lessonDao));
       context.put("/lesson/detail", new LessonDetailCommand(lessonDao));
       context.put("/lesson/update", new LessonUpdateCommand(lessonDao));
       context.put("/lesson/delete", 
-          new LessonDeleteCommand(lessonDao, photoBoardDao, photoFileDao));
+          new LessonDeleteCommand(lessonDao, 
+              photoBoardDao, 
+              photoFileDao,
+              txManager));
 
       
       context.put("/member/add", new MemberAddCommand(memberDao));
@@ -74,15 +83,17 @@ public class ApplicationInitializer implements ApplicationContextListener {
       context.put("/board/delete", new BoardDeleteCommand(boardDao));
       
       context.put("/photoboard/add", 
-          new PhotoBoardAddCommand(photoBoardDao, photoFileDao));
+          new PhotoBoardAddCommand(photoBoardDao, photoFileDao, txManager));
       context.put("/photoboard/list", 
           new PhotoBoardListCommand(photoBoardDao));
       context.put("/photoboard/detail", 
           new PhotoBoardDetailCommand(photoBoardDao, photoFileDao));
       context.put("/photoboard/update", 
-          new PhotoBoardUpdateCommand(photoBoardDao, photoFileDao));
+          new PhotoBoardUpdateCommand(photoBoardDao, photoFileDao, txManager));
       context.put("/photoboard/delete", 
-          new PhotoBoardDeleteCommand(photoBoardDao, photoFileDao));
+          new PhotoBoardDeleteCommand(photoBoardDao, photoFileDao, txManager));
+      context.put("/photoboard/search", 
+          new PhotoBoardSearchCommand(photoBoardDao));
       
     } catch (Exception e) {
       throw new ApplicationContextException(e);

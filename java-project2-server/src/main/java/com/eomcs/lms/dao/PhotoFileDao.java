@@ -5,10 +5,8 @@ import com.eomcs.lms.domain.PhotoFile;
 
 public interface PhotoFileDao {
   
-  void insert(PhotoFile photoFile);
+  void insert(List<PhotoFile> photoFiles);
   List<PhotoFile> findByPhotoBoardNo(int photoboardNo);
-//  PhotoBoard findByNo(int no);
-//  int update(PhotoFile photoFile);
   int deleteByPhotoBoardNo(int photoBoardNO);
   
 }

@@ -25,7 +25,6 @@ public class LessonDaoImpl implements LessonDao {
 
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
         sqlSession.insert("LessonMapper.insert", lesson);
-        sqlSession.commit();
     }
   }
 
@@ -40,18 +39,14 @@ public class LessonDaoImpl implements LessonDao {
   public int update(Lesson lesson) {
 
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int count = sqlSession.update("LessonMapper.update", lesson);
-      sqlSession.commit();
-      return count;
+      return sqlSession.update("LessonMapper.update", lesson);
     }
   }
 
   public int delete(int no) {
 
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      int count =  sqlSession.update("LessonMapper.delete", no);
-        sqlSession.commit();
-      return count;
+      return sqlSession.update("LessonMapper.delete", no);
   }
 }
 }

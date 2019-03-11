@@ -29,7 +29,6 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
       sqlSession.update("PhotoBoardMapper.insert", photoBoard);
-      sqlSession.commit(); 
     }
   }
 
@@ -38,7 +37,6 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
       sqlSession.update("PhotoBoardMapper.updateVw", no);
-      sqlSession.commit();
       return sqlSession.selectOne("PhotoBoardMapper.findByNo", no);
     }
   }
@@ -48,7 +46,6 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
       sqlSession.update("PhotoBoardMapper.updateVw", no);
-      sqlSession.commit();
       return sqlSession.selectOne("PhotoBoardMapper.findByNoWithFile", no);
     }
   }
@@ -59,9 +56,7 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
 
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      int count = sqlSession.update("PhotoBoardMapper.update", photoBoard);
-      sqlSession.commit();
-      return count;
+      return sqlSession.update("PhotoBoardMapper.update", photoBoard);
     } 
   }
 
@@ -70,9 +65,7 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
 
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
-      int count = sqlSession.delete("PhotoBoardMapper.delete", no);
-      sqlSession.commit();
-      return count;
+      return sqlSession.delete("PhotoBoardMapper.delete", no);
     }
   }
 }

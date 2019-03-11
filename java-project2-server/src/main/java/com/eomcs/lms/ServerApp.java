@@ -1,27 +1,3 @@
-// 1단계: 클라이언트 요청에 응답하는 서버 프로그램으로 전환하기
-//
-//클라이언트와 서버 사이의 통신 규칙
-//
-//규칙1) 단순한 명령어 전송과 실행 결과 수신
-//[클라이언트]                                        [서버]
-//서버에 연결 요청        -------------->           연결 승인
-//명령(CRLF)              -------------->           명령처리
-//화면 출력               <--------------           응답(CRLF)
-//화면 출력               <--------------           응답(CRLF)
-//명령어 실행 완료        <--------------           !end!(CRLF)
-//
-//규칙2) 사용자 입력을 포함하는 경우
-//[클라이언트]                                        [서버]
-//서버에 연결 요청        -------------->           연결 승인
-//명령(CRLF)              -------------->           명령처리
-//화면 출력               <--------------           응답(CRLF)
-//사용자 입력 요구        <--------------           !{}!(CRLF)
-//입력값(CRLF)            -------------->           입력 값 처리
-//화면 출력               <--------------           응답(CRLF)
-//사용자 입력 요구        <--------------           !{}!(CRLF)
-//입력값(CRLF)            -------------->           입력 값 처리
-//명령어 실행 완료        <--------------           !end!(CRLF)
-//
 package com.eomcs.lms;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -35,7 +11,6 @@ import com.eomcs.lms.handler.Command;
 
 public class ServerApp {
 
-  // ApplicationContextListener(옵저버) 목록을 보관할 객체
   ArrayList<ApplicationContextListener> listeners = new ArrayList<>();
   static HashMap<String,Object> context = new HashMap<>();
 
@@ -47,10 +22,6 @@ public class ServerApp {
 
     try (ServerSocket ss = new ServerSocket(8888)) {
 
-      // App에서 사용할 객체를 보관하는 저장소
-
-
-      // 애플리케이션을 시작할 때, 등록된 리스너에게 알려준다.
       for (ApplicationContextListener listener : listeners) {
         listener.contextInitialized(context);
       }
