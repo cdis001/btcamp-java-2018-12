@@ -1,16 +1,17 @@
 package com.eomcs.lms;
 
+import java.lang.reflect.Proxy;
 import java.util.Map;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.eomcs.lms.context.ApplicationContextException;
 import com.eomcs.lms.context.ApplicationContextListener;
-import com.eomcs.lms.dao.mariadb.BoardDaoImpl;
-import com.eomcs.lms.dao.mariadb.LessonDaoImpl;
-import com.eomcs.lms.dao.mariadb.MemberDaoImpl;
-import com.eomcs.lms.dao.mariadb.PhotoBoardDaoImpl;
-import com.eomcs.lms.dao.mariadb.PhotoFileDaoImpl;
+import com.eomcs.lms.dao.BoardDao;
+import com.eomcs.lms.dao.LessonDao;
+import com.eomcs.lms.dao.MemberDao;
+import com.eomcs.lms.dao.PhotoBoardDao;
+import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
@@ -33,6 +34,7 @@ import com.eomcs.lms.handler.PhotoBoardDetailCommand;
 import com.eomcs.lms.handler.PhotoBoardListCommand;
 import com.eomcs.lms.handler.PhotoBoardSearchCommand;
 import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
+import com.eomcs.mybatis.DaoInvocationHandler;
 import com.eomcs.mybatis.SqlSessionFactoryProxy;
 import com.eomcs.mybatis.TransactionManager;
 
@@ -51,11 +53,37 @@ public class ApplicationInitializer implements ApplicationContextListener {
       
       TransactionManager txManager = new TransactionManager(sqlSessionFactoryProxy);
       
-      LessonDaoImpl lessonDao = new LessonDaoImpl(sqlSessionFactoryProxy); //Proxy넣어주는 이유?
-      MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactoryProxy);
-      BoardDaoImpl boardDao = new BoardDaoImpl(sqlSessionFactoryProxy);
-      PhotoBoardDaoImpl photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactoryProxy);
-      PhotoFileDaoImpl photoFileDao = new PhotoFileDaoImpl(sqlSessionFactoryProxy); 
+      DaoInvocationHandler daoInvocationHandler = 
+          new DaoInvocationHandler(sqlSessionFactoryProxy);
+      
+      BoardDao boardDao = (BoardDao) Proxy.newProxyInstance(
+          BoardDao.class.getClassLoader(), 
+          new Class[] {BoardDao.class},
+          daoInvocationHandler);
+      
+      LessonDao lessonDao = (LessonDao) Proxy.newProxyInstance(
+          LessonDao.class.getClassLoader(), 
+          new Class[] {LessonDao.class},
+          daoInvocationHandler);
+      
+      MemberDao memberDao = (MemberDao) Proxy.newProxyInstance(
+          MemberDao.class.getClassLoader(), 
+          new Class[] {MemberDao.class},
+          daoInvocationHandler);
+      
+      PhotoBoardDao photoBoardDao = (PhotoBoardDao) Proxy.newProxyInstance(
+          PhotoBoardDao.class.getClassLoader(), 
+          new Class[] {PhotoBoardDao.class},
+          daoInvocationHandler);
+      
+      PhotoFileDao photoFileDao = (PhotoFileDao) Proxy.newProxyInstance(
+          PhotoFileDao.class.getClassLoader(), 
+          new Class[] {PhotoFileDao.class},
+          daoInvocationHandler);
+      
+//      MemberDaoImpl memberDao = new MemberDaoImpl(sqlSessionFactoryProxy);
+//      PhotoBoardDaoImpl photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactoryProxy);
+//      PhotoFileDaoImpl photoFileDao = new PhotoFileDaoImpl(sqlSessionFactoryProxy); 
       
       
       context.put("/lesson/add", new LessonAddCommand(lessonDao));

@@ -20,6 +20,7 @@ public class BoardDetailCommand extends AbstractCommand {
         response.println("해당 번호의 게시물이 없습니다.");
         return;
       }
+      boardDao.updateVw(no);
       response.println(String.format("내용: %s", board.getContents()));
       response.println(String.format("작성일: %s", board.getCreatedDate()));
       response.println(String.format("조회수: %d\n", board.getViewCount()));

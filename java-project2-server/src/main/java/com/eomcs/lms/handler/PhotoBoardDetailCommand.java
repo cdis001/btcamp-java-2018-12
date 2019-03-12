@@ -35,6 +35,7 @@ public class PhotoBoardDetailCommand extends AbstractCommand {
           photoboard.getLesson().getEndDate()));
       
       List<PhotoFile> files = photoboard.getFiles();
+      photoboardDao.updateVw(no);
       for (PhotoFile file : files) {
         response.println(String.format("사진파일: %s", file.getFilePath()));
       }

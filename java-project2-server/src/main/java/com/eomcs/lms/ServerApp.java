@@ -86,7 +86,7 @@ public class ServerApp {
         try {
           commandHandler.execute(in, out);
         } catch (Exception e) {
-          out.println("실행 오류: " + e.getMessage());
+          System.out.println("실행 오류: " + e.getMessage());
         }
         out.println("!end!");
         out.flush();
