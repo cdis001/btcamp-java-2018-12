@@ -6,13 +6,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import com.eomcs.lms.context.ApplicationContext;
 import com.eomcs.lms.context.ApplicationContextListener;
 import com.eomcs.lms.handler.Command;
 
 public class ServerApp {
 
   ArrayList<ApplicationContextListener> listeners = new ArrayList<>();
-  static HashMap<String,Object> context = new HashMap<>();
+  
+  HashMap<String,Object> context = new HashMap<>();
+  
+  ApplicationContext beanContainer;
 
   public void addApplicationContextListener(ApplicationContextListener listener) {
     listeners.add(listener);
@@ -26,20 +30,14 @@ public class ServerApp {
         listener.contextInitialized(context);
       }
 
+      beanContainer = (ApplicationContext) context.get("applicationContext");
+      
       System.out.println("서버 실행 중...");
 
       while (true) {
 
         new RequestHandlerThread(ss.accept()).start();
-
-      } // while
-
-      // 애플리케이션을 종료할 때, 등록된 리스너에게 알려준다.
-      /*
-      for (ApplicationContextListener listener : listeners) {
-        listener.contextDestroyed(context);
       }
-       */
     } catch (Exception e) {
       e.printStackTrace();
     } // try(ServerSocket)
@@ -56,7 +54,7 @@ public class ServerApp {
     app.service();
   }
 
-  static class RequestHandlerThread extends Thread {
+  class RequestHandlerThread extends Thread {
 
     Socket socket;
 
@@ -75,7 +73,7 @@ public class ServerApp {
         // 클라이언트의 요청 읽기
         String request = in.readLine();
 
-        Command commandHandler = (Command) context.get(request);
+        Command commandHandler = (Command) beanContainer.getBean(request);
         if (commandHandler == null) {
           out.println("실행할 수 없는 명령입니다.");
           out.println("!end!");
