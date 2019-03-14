@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import com.eomcs.lms.context.ApplicationContext;
 import com.eomcs.lms.context.ApplicationContextListener;
-import com.eomcs.lms.context.RequestMappingHandlerMapping;
-import com.eomcs.lms.context.RequestMappingHandlerMapping.RequestMappingHandler;
-import com.eomcs.lms.handler.Response;
+import com.eomcs.lms.handler.Command;
 
 public class ServerApp {
 
@@ -19,8 +17,6 @@ public class ServerApp {
   HashMap<String,Object> context = new HashMap<>();
   
   ApplicationContext beanContainer;
-  
-  RequestMappingHandlerMapping handlerMapping;
 
   public void addApplicationContextListener(ApplicationContextListener listener) {
     listeners.add(listener);
@@ -34,11 +30,7 @@ public class ServerApp {
         listener.contextInitialized(context);
       }
 
-      //순서 중요!
       beanContainer = (ApplicationContext) context.get("applicationContext");
-      
-      handlerMapping = 
-          (RequestMappingHandlerMapping) beanContainer.getBean("handlerMapping");
       
       System.out.println("서버 실행 중...");
 
@@ -78,11 +70,11 @@ public class ServerApp {
               new InputStreamReader(socket.getInputStream()));
           PrintWriter out = new PrintWriter(socket.getOutputStream())) {
 
+        // 클라이언트의 요청 읽기
         String request = in.readLine();
 
-        RequestMappingHandler requestHandler = handlerMapping.get(request);
-        
-        if (requestHandler == null) {
+        Command commandHandler = (Command) beanContainer.getBean(request);
+        if (commandHandler == null) {
           out.println("실행할 수 없는 명령입니다.");
           out.println("!end!");
           out.flush();
@@ -90,8 +82,7 @@ public class ServerApp {
         }
 
         try {
-          requestHandler.method.invoke(
-              requestHandler.bean, new Response(in, out));
+          commandHandler.execute(in, out);
         } catch (Exception e) {
           System.out.println("실행 오류: " + e.getMessage());
         }

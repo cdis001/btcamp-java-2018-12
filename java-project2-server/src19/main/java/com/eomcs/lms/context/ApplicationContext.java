@@ -2,7 +2,6 @@ package com.eomcs.lms.context;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.apache.ibatis.io.Resources;
-import com.eomcs.lms.context.RequestMappingHandlerMapping.RequestMappingHandler;
 
 public class ApplicationContext {
 
@@ -33,7 +31,6 @@ public class ApplicationContext {
 
     findClasses(packageDir, packageName);
     prepareComponent();
-    postProcess();
 
     System.out.println("------------------------------------");
     Set<String> names = beanContainer.keySet();
@@ -92,15 +89,15 @@ public class ApplicationContext {
   private void prepareComponent() throws Exception {
 
     for(Class<?> clazz : classes){
-      
+
       Component compAnno = clazz.getAnnotation(Component.class);
-      if (compAnno == null)
-        continue;
-      Object obj = createInstance(clazz);
-      if(obj != null) {
-        addBean(
-            compAnno.value().length() > 0 ? compAnno.value() : clazz.getName(),
-                obj);
+      if (compAnno != null) {
+        Object obj = createInstance(clazz);
+        if(obj != null) {
+          addBean(
+              compAnno.value().length() > 0 ? compAnno.value() : clazz.getName(),
+                  obj);
+        }
       }
     }
   }
@@ -152,23 +149,5 @@ public class ApplicationContext {
     return null;
   }
 
-  public void postProcess() {
-    RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
-    
-    Collection<Object> beans = beanContainer.values();
-    
-    for (Object bean : beans) {
-      Method[] methods = bean.getClass().getMethods();
-      for(Method m : methods) {
-        RequestMapping requestMapping = m.getAnnotation(RequestMapping.class);
-        if(requestMapping == null) 
-          continue;
-        
-        RequestMappingHandler handler = new RequestMappingHandler(bean, m);
-        
-        handlerMapping.add(requestMapping.value(), handler);
-      }
-    }
-    beanContainer.put("handlerMapping", handlerMapping);
-  }
+
 }
