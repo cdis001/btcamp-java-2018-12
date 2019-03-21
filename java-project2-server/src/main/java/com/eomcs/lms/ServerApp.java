@@ -4,48 +4,32 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.springframework.context.ApplicationContext;
-import com.eomcs.lms.context.ApplicationContextListener;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.eomcs.lms.context.RequestMappingHandlerMapping;
 import com.eomcs.lms.context.RequestMappingHandlerMapping.RequestMappingHandler;
 import com.eomcs.lms.handler.Response;
 
 public class ServerApp {
 
-  ArrayList<ApplicationContextListener> listeners = new ArrayList<>();
-  
-  HashMap<String,Object> context = new HashMap<>();
-  
   ApplicationContext iocContainer;
   
   RequestMappingHandlerMapping handlerMapping;
-
-  public void addApplicationContextListener(ApplicationContextListener listener) {
-    listeners.add(listener);
-  }
 
   public void service() throws Exception {
 
     try (ServerSocket ss = new ServerSocket(8888)) {
 
-      for (ApplicationContextListener listener : listeners) {
-        listener.contextInitialized(context);
-      }
-
-      //순서 중요!
-      iocContainer = (ApplicationContext) context.get("applicationContext");
+      iocContainer = new AnnotationConfigApplicationContext(AppConfig.class);
       
       handlerMapping = 
-          (RequestMappingHandlerMapping) context.get("handlerMapping");
+          (RequestMappingHandlerMapping) iocContainer.getBean(
+              RequestMappingHandlerMapping.class);
       
       System.out.println("서버 실행 중...");
-
       while (true) {
-
         new RequestHandlerThread(ss.accept()).start();
-      }
+      } // while
     } catch (Exception e) {
       e.printStackTrace();
     } // try(ServerSocket)
@@ -54,9 +38,6 @@ public class ServerApp {
 
   public static void main(String[] args) throws Exception {
     ServerApp app = new ServerApp();
-
-    // App이 실행되거나 종료될 때 보고를 받을 옵저버를 등록한다.
-    app.addApplicationContextListener(new ApplicationInitializer());
 
     // App 을 실행한다.
     app.service();

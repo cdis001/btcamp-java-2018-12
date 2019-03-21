@@ -1,39 +1,26 @@
 package com.eomcs.lms.handler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.eomcs.lms.context.RequestMapping;
-import com.eomcs.lms.dao.PhotoBoardDao;
-import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
+import com.eomcs.lms.service.PhotoBoardService;
 
 @Component
 public class PhotoBoardCommand {
 
-  PlatformTransactionManager txManager;
-  PhotoBoardDao photoBoardDao; // 서버의 BoardDaoImpl 객체를 대행하는 프록시 객체이다.
-  PhotoFileDao photoFileDao;
+  PhotoBoardService photoBoardService;
 
-  public PhotoBoardCommand(
-      PhotoBoardDao photoBoardDao, 
-      PhotoFileDao photoFileDao,
-      PlatformTransactionManager txManager) {
-    this.photoBoardDao = photoBoardDao;
-    this.photoFileDao = photoFileDao;
-    this.txManager = txManager;
+  public PhotoBoardCommand(PhotoBoardService photoBoardService) {
+    this.photoBoardService = photoBoardService;
   }
   
   @RequestMapping("/photoboard/list")
   public void list(Response response) throws Exception {
 
-    List<PhotoBoard> boards = photoBoardDao.findAll(null);
+    List<PhotoBoard> boards = photoBoardService.list(0, null);
 
     for (PhotoBoard photoboard : boards) {
       response.println(
@@ -45,25 +32,15 @@ public class PhotoBoardCommand {
   }
   
   @RequestMapping("/photoboard/add")
-  public void add(Response response) throws Exception {
+  public void add(Response response) {
 
-
-    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    def.setName("tx1");
-    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-    
-    TransactionStatus status = txManager.getTransaction(def);
-    
     try {
-      
       PhotoBoard photoboard = new PhotoBoard();
       photoboard.setTitle(response.requestString("사진 제목?"));
       photoboard.setLessonNo(response.requestInt("레슨 번호?"));
-      photoBoardDao.insert(photoboard);
 
       response.println("최소 한 개의 사진 파일을 등록해야 합니다.");
       response.println("파일명 입력 없이 그냥 엔터를 치면 파일 추가를 마칩니다.");
-
 
       ArrayList<PhotoFile> files = new ArrayList<PhotoFile>();
       while(true) {
@@ -79,18 +56,16 @@ public class PhotoBoardCommand {
         }
         PhotoFile file = new PhotoFile();
         file.setFilePath(filePath);
-        file.setPhotoBoardNo(photoboard.getNo());
         files.add(file);
       }
 
-      photoFileDao.insert(files);
-      
+      photoboard.setFiles(files);
+      photoBoardService.add(photoboard);
       response.println("저장하였습니다.");
-      txManager.commit(status);
       
     } catch (Exception e) {
-      response.println("저장 중 오류가 발생했습니다" + e.getMessage());
-      txManager.rollback(status);
+      e.printStackTrace();
+      response.println("저장 중 오류가 발생했습니다");
     }
   }
   
@@ -99,7 +74,7 @@ public void detail(Response response) throws Exception {
     
     int no = response.requestInt("번호?");
     
-    PhotoBoard photoboard = photoBoardDao.findByNoWithFile(no);
+    PhotoBoard photoboard = photoBoardService.get(no);
       if (photoboard == null) {
         response.println("해당 번호의 게시물이 없습니다.");
         return;
@@ -113,7 +88,6 @@ public void detail(Response response) throws Exception {
           photoboard.getLesson().getEndDate()));
       
       List<PhotoFile> files = photoboard.getFiles();
-      photoBoardDao.updateVw(no);
       for (PhotoFile file : files) {
         response.println(String.format("사진파일: %s", file.getFilePath()));
       }
@@ -122,37 +96,25 @@ public void detail(Response response) throws Exception {
   @RequestMapping("/photoboard/update")
   public void update(Response response) throws Exception {
 
-
-    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    def.setName("tx1");
-    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-    
-    TransactionStatus status = txManager.getTransaction(def);
-    
-
     try {
 
       PhotoBoard board = new PhotoBoard();
       board.setNo(response.requestInt("번호?"));
 
-      PhotoBoard photoBoard = photoBoardDao.findByNo(board.getNo());
-      if (photoBoard == null) {
+      PhotoBoard origin = photoBoardService.get(board.getNo());
+      if (origin == null) {
         response.println("해당 번호의 수업이 없습니다.");
         return;
       }
 
       String input = response.requestString(
-          String.format("제목(%s)?", photoBoard.getTitle()));
+          String.format("제목(%s)?", origin.getTitle()));
       if (input.length() > 0) {
         board.setTitle(input);
-        photoBoardDao.update(board);
-        response.println("변경했습니다.");
-      } else {
-        response.println("변경을 취소하였습니다.");
-      }
+      } 
 
       response.println("사진파일: ");
-      List<PhotoFile> files = photoFileDao.findByPhotoBoardNo(photoBoard.getNo());
+      List<PhotoFile> files = origin.getFiles();
       for (PhotoFile file : files) {
         response.println("> " + file.getFilePath());
       }
@@ -161,8 +123,6 @@ public void detail(Response response) throws Exception {
       response.println("전체를 새로 등록해야 합니다.");
       String input2 = response.requestString("사진을 변경하시겠습니까?(y/N)");
       if(input2.equalsIgnoreCase("y")) {
-
-        photoFileDao.deleteByPhotoBoardNo(board.getNo());
 
         response.println("최소 한 개의 사진 파일을 등록해야 합니다.");
         response.println("파일명 입력 없이 그냥 엔터를 치면 파일 추가를 마칩니다.");
@@ -186,72 +146,52 @@ public void detail(Response response) throws Exception {
 
           photoFiles.add(file);
         }
-        response.println("사진 파일을 변경합니다");
-        photoFileDao.insert(photoFiles);
+        board.setFiles(photoFiles);
       }
-
-      txManager.commit(status);
+      photoBoardService.update(origin);
       response.println("변경했습니다.");
     } catch (Exception e) {
-      txManager.rollback(status);
-      response.println("변경 중 오류 발생" + e.getMessage());
+      response.println("변경 중 오류 발생");
+      e.printStackTrace();
     }
   }
   
   @RequestMapping("/photoboard/delete")
 public void delete(Response response) throws Exception {
     
-
-    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    def.setName("tx1");
-    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-    
-    TransactionStatus status = txManager.getTransaction(def);
-    
     try {
-
       int no = response.requestInt("번호?");
-      
-      photoFileDao.deleteByPhotoBoardNo(no);
-
-      if (photoBoardDao.delete(no) == 0) {
+      if (photoBoardService.delete(no) == 0) {
         response.println("해당 번호의 게시물이 없습니다.");
         return;
       }
-      
       response.println("삭제했습니다.");
-      txManager.commit(status);
-
+      
     } catch (Exception e) {
-      response.println(String.format("실행 오류! : %s\n", e.getMessage()));
-      txManager.rollback(status);
+      response.println(String.format("삭제 중 오류 발생!"));
+      e.printStackTrace();
     }
   }
   
   @RequestMapping("/photoboard/search")
 public void search(Response response) throws Exception {
     
-    HashMap<String, Object> params = new HashMap<>();
+    int lessonNo = 0;
     
     try {
-      int lessonNo = response.requestInt("레슨 번호?");
-      params.put("lessonNo", lessonNo);
+      lessonNo = response.requestInt("레슨 번호?");
     } catch (Exception e) {
     }
-
+    String searchWord = null; 
     try {
       String keyword = response.requestString("검색어?");
       if (keyword.length() > 0) {
-      //SQL에서 검색할 때 사용할 문자열 패턴을 다음과 같이 자바에서 만들어 전달할 수 있다. 
-        //params.put("keyword", "%" + keyword + "%");
-        
-        // 또는 다음과 같이 키워드를 전달한 후 mybatis 쪽에서 패턴을 정의할 수 있다.
-        params.put("keyword", keyword);
+        searchWord = keyword;
       }
     } catch (Exception e) {
     }
     
-    List<PhotoBoard> boards = photoBoardDao.findAll(params);
+    List<PhotoBoard> boards = photoBoardService.list(lessonNo, searchWord);
     
     response.println("[검색결과]");
     for (PhotoBoard photoboard : boards) {

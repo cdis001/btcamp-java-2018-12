@@ -14,14 +14,15 @@ public class PhotoBoard implements Serializable {
   private int viewCount;
   private int lessonNo;
   
+  private Lesson lesson;
+  private List<PhotoFile> files;
+  
   public Lesson getLesson() {
     return lesson;
   }
   public void setLesson(Lesson lesson) {
     this.lesson = lesson;
   }
-  private Lesson lesson;
-  private List<PhotoFile> files;
   
   public List<PhotoFile> getFiles() {
     return files;
