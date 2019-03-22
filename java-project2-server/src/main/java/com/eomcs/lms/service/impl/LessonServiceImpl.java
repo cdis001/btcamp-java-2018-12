@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.PhotoBoardDao;
@@ -20,17 +22,14 @@ public class LessonServiceImpl implements LessonService {
   LessonDao lessonDao;
   PhotoBoardDao photoBoardDao;
   PhotoFileDao photoFileDao;
-  PlatformTransactionManager txManager;
 
   public LessonServiceImpl(
       LessonDao lessonDao,
       PhotoBoardDao photoBoardDao,
-      PhotoFileDao photoFileDao,
-      PlatformTransactionManager txManager) {
+      PhotoFileDao photoFileDao) {
     this.lessonDao = lessonDao;
     this.photoBoardDao = photoBoardDao;
     this.photoFileDao = photoFileDao;
-    this.txManager = txManager;
   }
 
   @Override
@@ -54,29 +53,20 @@ public class LessonServiceImpl implements LessonService {
   }
 
   @Override
+  @Transactional(propagation=Propagation.REQUIRED)
   public int delete(int no) {
 
-    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-    def.setName("tx1");
-    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-    
-    TransactionStatus status = txManager.getTransaction(def);
-    try {
-      HashMap<String, Object> params = new HashMap<String, Object>();
-      params.put("lessonNo", no);
+    HashMap<String, Object> params = new HashMap<String, Object>();
+    params.put("lessonNo", no);
 
-      List<PhotoBoard> boards = photoBoardDao.findAll(params);
-      for (PhotoBoard board : boards) {
-        photoFileDao.deleteByPhotoBoardNo(board.getNo());
-        photoBoardDao.delete(board.getNo());
-      }
-      
-      txManager.commit(status);
-      return lessonDao.delete(no);
-    } catch (RuntimeException e) {
-      txManager.rollback(status);
-      throw e;
+    List<PhotoBoard> boards = photoBoardDao.findAll(params);
+    for (PhotoBoard board : boards) {
+      photoFileDao.deleteByPhotoBoardNo(board.getNo());
+      photoBoardDao.delete(board.getNo());
     }
+
+    return lessonDao.delete(no);
+
   }
 
 }

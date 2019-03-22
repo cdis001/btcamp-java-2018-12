@@ -21,13 +21,15 @@ from room;
 select concat(name, '(', loc, ')') title
 from room;
 
+/*집합함수이므로 여러개를 뽑으려고 해도 맨 앞의 것만 나옴(결과는 한개값만 나옴)*/
 select count(*) 
 from room;
 
 select count(*) cnt
 from room;
 
-
+/*억지로 두개를 뽑는 방법*/
+select (select count(*) from room where loc = '강남') loc, name from room where name = 5%;
 
 
 

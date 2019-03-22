@@ -25,6 +25,7 @@ public class ServerApp {
       handlerMapping = 
           (RequestMappingHandlerMapping) iocContainer.getBean(
               RequestMappingHandlerMapping.class);
+      printBeans();
       
       System.out.println("서버 실행 중...");
       while (true) {
@@ -85,6 +86,15 @@ public class ServerApp {
         e.printStackTrace();
       } 
     }
+  }
+  
+  private void printBeans() {
+    String names[] = iocContainer.getBeanDefinitionNames();
+    System.out.println("--------------------------");
+    for(String name : names) {
+      System.out.printf("  ==>%s\n", name);
+    }
+    System.out.println("--------------------------");
   }
 }
 
