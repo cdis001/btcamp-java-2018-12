@@ -24,7 +24,7 @@ public class MybatisConfig {
     factoryBean.setMapperLocations(
         appCtx.getResources("classpath:/com/eomcs/lms/mapper/*.xml"));
     
-    LogFactory.useLog4J2Logging();
+    LogFactory.useLog4JLogging();
     
     return factoryBean.getObject();
   }

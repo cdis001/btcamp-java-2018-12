@@ -69,40 +69,25 @@ public class ServerApp {
 
         logger.info("클라이언트와 연결되었음!");
         
-        String requestLine = in.readLine();
-        logger.debug(requestLine);
+        String request = in.readLine();
 
-        while(true) {
-          String str = in.readLine();
-          if(str.length() == 0)
-            break;
-        }
-        String commandPath = requestLine.split(" ")[1];
-        
-        RequestMappingHandler requestHandler = handlerMapping.get(commandPath);
+        RequestMappingHandler requestHandler = handlerMapping.get(request);
         
         if (requestHandler == null) {
-          out.println("HTTP/1.1 404 Not Found");
-          out.println("Server: bitcamp");
-          out.println("Content-Type: text/plain; charset=UTF-8");
-          out.println();
           out.println("실행할 수 없는 명령입니다.");
           out.println("!end!");
           out.flush();
           return;
         }
-        
+
         try {
-          out.println("HTTP/1.1 200 OK");
-          out.println("Server: bitcamp");
-          out.println("Content-Type: text/html; charset=UTF-8");
-          out.println();
           requestHandler.method.invoke(
               requestHandler.bean, new Response(in, out));
         } catch (Exception e) {
           out.println("실행 오류: " + e.getMessage());
           e.printStackTrace();
         }
+        out.println("!end!");
         out.flush();
 
       } catch (Exception e) {
