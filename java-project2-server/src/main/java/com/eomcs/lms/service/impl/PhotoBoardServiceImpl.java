@@ -15,9 +15,7 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
   PhotoBoardDao boardDao;
   PhotoFileDao fileDao;
 
-  public PhotoBoardServiceImpl(
-      PhotoBoardDao boardDao, 
-      PhotoFileDao fileDao) {
+  public PhotoBoardServiceImpl(PhotoBoardDao boardDao, PhotoFileDao fileDao) {
     this.boardDao = boardDao;
     this.fileDao = fileDao;
   }
@@ -25,14 +23,14 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
   @Override
   public List<PhotoBoard> list(int lessonNo, String searchWord) {
 
-    if(lessonNo >= 0 && searchWord == null) {
+    if (lessonNo <= 0 && searchWord == null) {
       return boardDao.findAll(null);
     } else {
       HashMap<String, Object> params = new HashMap<>();
-      if(lessonNo > 0) {
+      if (lessonNo > 0) {
         params.put("lessonNo", lessonNo);
-      } 
-      if(searchWord != null) {
+      }
+      if (searchWord != null) {
         params.put("keyword", searchWord);
       }
       return boardDao.findAll(params);
@@ -56,7 +54,7 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
   @Override
   public PhotoBoard get(int no) {
     PhotoBoard board = boardDao.findByNoWithFile(no);
-    if(board != null) {
+    if (board != null) {
       boardDao.updateVw(no);
     }
     return board;
@@ -65,12 +63,12 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
   @Override
   public int update(PhotoBoard photoBoard) {
 
-    if(photoBoard.getTitle() != null) {
+    if (photoBoard.getTitle() != null) {
       boardDao.update(photoBoard);
     }
 
     List<PhotoFile> photoFiles = photoBoard.getFiles();
-    if(photoFiles.size() > 0) {
+    if (photoFiles.size() > 0) {
       fileDao.deleteByPhotoBoardNo(photoBoard.getNo());
       fileDao.insert(photoFiles);
     }
