@@ -16,8 +16,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-@WebServlet("/ex04/s4")
-public class Servlet04 extends GenericServlet {
+@WebServlet("/ex04/s41")
+public class Servlet04_1 extends GenericServlet {
 
   private String uploadDir;
   private static final long serialVersionUID = 1L;
