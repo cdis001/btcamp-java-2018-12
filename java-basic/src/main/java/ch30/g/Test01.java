@@ -20,7 +20,7 @@ public class Test01 {
     }
     System.out.println("---------------------------");
     
-    X x = (X) iocContainer.getBean("x");
+    X x = (X) iocContainer.getBean("x"); 
     System.out.println(x.calculate(10, 20, "+"));
     
     try {

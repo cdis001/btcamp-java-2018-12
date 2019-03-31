@@ -19,6 +19,7 @@ public class BoardAddServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    //    response.setHeader("ip", "127.0.0.1");
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
 
