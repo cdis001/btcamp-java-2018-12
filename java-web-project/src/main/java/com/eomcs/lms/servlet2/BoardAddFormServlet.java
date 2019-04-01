@@ -16,11 +16,10 @@ public class BoardAddFormServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
 
     out.println("<h1>새 글</h1>");
-    out.println("<form action='board2' method='post'>");
+    out.println("<form action='board2?command=add' method='post'>");
     out.println("<input type='hidden' name='command' value='add'>");
     out.println("<table border='1'>");
     out.println("<tr>");
