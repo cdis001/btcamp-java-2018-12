@@ -29,6 +29,7 @@ public class BoardListServlet extends HttpServlet {
 
     out.println("<html><head><title>게시물 목록</title></head>");
     out.println("<body><h1>게시물 목록</h1>");
+    out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
     out.println("<p><a href='add'>새글</a></p>");
     out.println("<table border='1'>");
     out.println("<tr> <th>번호</th> <th>제목</th> <th>등록일</th> <th>조회수</th> </tr>");

@@ -19,14 +19,14 @@ create table lms_lesson(
   day_hr int not null comment '일 수업시간' 
 ) comment '수업';
 
-create table lms_member(
-  member_id int not null auto_increment primary key comment '회원데이터 식별 번호',
-  name varchar(30) not null comment '회원 이름',
-  email varchar(50) not null comment '회원 메일',
-  pwd varchar(255) not null comment '비밀번호',
-  photo varchar(255) comment '사진',
-  tel varchar(20) comment '전화번호',
-  rdt datetime default now() comment '가입일'
+create table lms_member (
+  member_id int not null auto_increment primary key comment '회원 데이터 식별 번호',
+  name varchar(30) not null comment '이름',
+  email varchar(50) not null comment '이메일',
+  pwd varchar(255) not null comment '암호',
+  rdt datetime default now() comment '등록일', 
+  tel varchar(20) comment '전화',
+  photo varchar(255) comment '사진'
 ) comment '회원';
 
 create table lms_board(

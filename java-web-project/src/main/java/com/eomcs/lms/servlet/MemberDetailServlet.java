@@ -35,7 +35,7 @@ public class MemberDetailServlet extends HttpServlet {
       return;
     }
 
-    out.println("<form action='update'>");
+    out.println("<form action='update' method='post'>");
     out.println("<table border='1'>");
     out.printf("<tr>" + "<th>번호</th>" + "<td><input type='text' name='no' value='%d' readonly></td>"
         + "</tr>\n", no);

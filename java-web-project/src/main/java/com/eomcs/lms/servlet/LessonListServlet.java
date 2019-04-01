@@ -29,6 +29,7 @@ public class LessonListServlet extends HttpServlet {
 
     out.println("<html><head><title>수업 목록</title></head>");
     out.println("<body><h1>수업 목록</h1>");
+    out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
     out.println("<p><a href='add'>새글</a></p>");
     out.println("<table border='1'>");
     out.println("<tr> <th>번호</th> <th>제목</th> <th>시작일</th> <th>종료일</th> <th>총수업시간</th> </tr>");

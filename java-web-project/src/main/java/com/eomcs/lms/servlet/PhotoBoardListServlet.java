@@ -21,13 +21,15 @@ public class PhotoBoardListServlet extends HttpServlet {
       throws ServletException, IOException {
 
     PhotoBoardService photoBoardService = ServerApp.iocContainer.getBean(PhotoBoardService.class);
-    response.setContentType("text/html;charset=UTF-8");
 
     List<PhotoBoard> boards = photoBoardService.list(0, null);
 
+    response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
+
     out.println("<html><head><title>사진 목록</title></head>");
     out.println("<body><h1>사진 목록</h1>");
+    out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
     out.println("<p><a href='add'>새 사진</a></p>");
     out.println("<table border='1'>");
     out.println("<tr><th>번호</th><th>제목</th><th>등록일</th><th>조회수</th><th>수업</th></tr>");
