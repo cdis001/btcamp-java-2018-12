@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.eomcs.lms.InitServlet;
+import org.springframework.context.ApplicationContext;
 import com.eomcs.lms.domain.Member;
 import com.eomcs.lms.service.MemberService;
 
@@ -20,7 +20,9 @@ public class MemberDetailServlet extends HttpServlet {
       throws ServletException, IOException {
 
     request.setCharacterEncoding("UTF-8");
-    MemberService memberService = InitServlet.iocContainer.getBean(MemberService.class);
+    MemberService memberService =
+        ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
+            .getBean(MemberService.class);
 
     int no = Integer.parseInt(request.getParameter("no"));
 

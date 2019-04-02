@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.eomcs.lms.InitServlet;
+import org.springframework.context.ApplicationContext;
 import com.eomcs.lms.domain.Board;
 import com.eomcs.lms.service.BoardService;
 
@@ -48,7 +48,9 @@ public class BoardAddServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    BoardService boardService = InitServlet.iocContainer.getBean(BoardService.class);
+    BoardService boardService =
+        ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
+            .getBean(BoardService.class);
 
     Board board = new Board();
     board.setContents(request.getParameter("contents") + ":" + request.getRemoteAddr());
@@ -58,12 +60,7 @@ public class BoardAddServlet extends HttpServlet {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
 
-    out.println("<html><head>" + "<title>게시물 등록</title>"
-        + "<meta http-equiv='Refresh' content='1;url=list'>" + "</head>");
-    out.println("<body><h1>게시물 등록</h1>");
-    out.println("<p>저장하였습니다.</p>");
-    out.println("</body></html>");
-
+    response.sendRedirect("list");
   }
 
 }
