@@ -30,7 +30,9 @@ public class BoardListServlet extends HttpServlet {
     PrintWriter out = response.getWriter();
 
     out.println("<html><head><title>게시물 목록</title></head>");
-    out.println("<body><h1>게시물 목록</h1>");
+    out.println("<body>");
+    request.getRequestDispatcher("/header").include(request, response);
+    out.println("<h1>게시물 목록</h1>");
     out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
     out.println("<p><a href='add'>새글</a></p>");
     out.println("<table border='1'>");

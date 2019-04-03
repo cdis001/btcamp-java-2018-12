@@ -30,7 +30,9 @@ public class MemberSearchServlet extends HttpServlet {
 
     PrintWriter out = response.getWriter();
     out.println("<html><head><title>회원 목록</title></head>");
-    out.println("<body><h1>회원 목록</h1>");
+    out.println("<body>");
+    request.getRequestDispatcher("/header").include(request, response);
+    out.println("<h1>회원 목록</h1>");
     out.println("<table border='1'>");
     out.println("<tr> <th>번호</th> <th>이름</th> <th>이메일</th> <th>전화번호</th> <th>가입일</th> </tr>");
     for (Member member : members) {

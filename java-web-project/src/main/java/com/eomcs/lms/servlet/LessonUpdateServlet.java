@@ -42,7 +42,8 @@ public class LessonUpdateServlet extends HttpServlet {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
     out.println("<html><head>" + "<title>수업 정보 변경</title>" + "</head>");
-    out.println("<body><h1>수업 정보 변경</h1>");
+    out.println("<body>");
+    out.println("<h1>수업 정보 변경</h1>");
 
     out.println("<p>해당 번호의 게시물이 없습니다.</p>");
     out.println("</body></html>");

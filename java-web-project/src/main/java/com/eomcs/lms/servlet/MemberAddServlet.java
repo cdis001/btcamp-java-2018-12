@@ -29,6 +29,7 @@ public class MemberAddServlet extends HttpServlet {
     out.println("<html>");
     out.println("<head><title>새 회원</title></head>");
     out.println("<body>");
+    request.getRequestDispatcher("/header").include(request, response);
     out.println("<h1>새 회원</h1>");
     out.println("<form action='add' method='post' enctype='multipart/form-data'>");
     out.println("<table border='1'>");
@@ -69,7 +70,7 @@ public class MemberAddServlet extends HttpServlet {
       throws ServletException, IOException {
 
     MemberService memberService =
-        ((ApplicationContext) this.getServletContext().getAttribute("iocContaioner"))
+        ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
             .getBean(MemberService.class);
 
     Member member = new Member();
@@ -89,7 +90,6 @@ public class MemberAddServlet extends HttpServlet {
     }
     memberService.add(member);
 
-    response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
 
     response.sendRedirect("list");

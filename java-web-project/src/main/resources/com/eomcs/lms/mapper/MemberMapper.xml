@@ -41,6 +41,18 @@
   where
    member_id = #{no}
 	</select>
+  
+    <select id="findByEmailPassword" resultMap="memberMap" parameterType="map">
+    select
+    <include refid="default-columns"/>,
+     member_id,
+     photo
+  from
+   lms_member
+  where
+   email = #{email}
+   and pwd = password(#{password})
+    </select>
 	
 	<select id="findBykeyword" resultMap="memberMap" parameterType="string">
 	<bind name="pattern1" value="'%' + _parameter + '%'"/>

@@ -29,6 +29,11 @@ create table lms_member (
   photo varchar(255) comment '사진'
 ) comment '회원';
 
+CREATE UNIQUE INDEX UIX_lms_member_email
+  ON lms_member(
+    email ASC
+  );
+  
 create table lms_board(
   board_id int not null auto_increment primary key comment '게시판 번호',
   conts text not null comment '내용',
@@ -53,3 +58,4 @@ create table lms_photo_file(
     references lms_photo (photo_id),
   photo_id int not null
 ) comment '사진 게시물 첨부파일 테이블';
+
