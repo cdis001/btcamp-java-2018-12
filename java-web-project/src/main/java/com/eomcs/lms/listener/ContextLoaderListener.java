@@ -28,7 +28,7 @@ public class ContextLoaderListener implements ServletContextListener {
     logger.debug("--------------------------");
     String names[] = iocContainer.getBeanDefinitionNames();
     for (String name : names) {
-      logger.debug(String.format("빈 생성됨 (객체명=%s, 클래스명=%s", name,
+      logger.debug(String.format("빈 생성됨 (객체명=%s, 클래스명=%s)", name,
           iocContainer.getBean(name).getClass().getName()));
     }
 
