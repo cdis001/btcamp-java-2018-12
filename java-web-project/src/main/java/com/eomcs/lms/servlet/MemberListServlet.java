@@ -1,8 +1,8 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,30 +26,12 @@ public class MemberListServlet extends HttpServlet {
 
     List<Member> members = memberService.list(null);
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
+    request.setAttribute("list", members);
 
-    out.println("<html><head><title>회원 목록</title></head>");
-    out.println("<body>");
-    request.getRequestDispatcher("/header").include(request, response);
-    out.println("<h1>회원 목록</h1>");
-    out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
-    out.println("<p><a href='add'>회원가입</a></p>");
-    out.println("<table border='1'>");
-    out.println("<tr> <th>번호</th> <th>이름</th> <th>이메일</th> <th>전화번호</th> <th>가입일</th> </tr>");
-    for (Member member : members) {
-      out.println(String.format(
-          "<tr> <td>%d</td><td><a href='detail?no=%1$d'>%s</a></td> " + "<td>%s</td> "
-              + "<td>%s</td> " + "<td>%s</td></tr>",
-          member.getNo(), member.getName(), member.getEmail(), member.getTel(),
-          member.getRegisteredDate()));
-    }
-    out.println("<form action='search'>");
-    out.println("<table border='1'>");
-    out.println("<input type='text' name='keyword' value='' textarea></td> " + "</tr>");
-    out.println("<button type='submit'>" + "검색" + "</button>");
-    out.println("</form>");
-    out.println("</table></body></html>");
+    response.setContentType("text/html;charset=UTF-8");
+
+    RequestDispatcher rd = request.getRequestDispatcher("/member/list.jsp");
+    rd.include(request, response);
   }
 
 

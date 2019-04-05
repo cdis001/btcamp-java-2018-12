@@ -1,8 +1,8 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,23 +26,12 @@ public class BoardListServlet extends HttpServlet {
 
     List<Board> boards = boardService.list();
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
+    request.setAttribute("list", boards);
 
-    out.println("<html><head><title>게시물 목록</title></head>");
-    out.println("<body>");
-    request.getRequestDispatcher("/header").include(request, response);
-    out.println("<h1>게시물 목록</h1>");
-    out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
-    out.println("<p><a href='add'>새글</a></p>");
-    out.println("<table border='1'>");
-    out.println("<tr> <th>번호</th> <th>제목</th> <th>등록일</th> <th>조회수</th> </tr>");
-    for (Board board : boards) {
-      out.println(String.format(
-          "<tr><td>%d</td> <td><a href='detail?no=%1$d'>%s</a></td> <td>%s</td> <td>%d</td></tr>",
-          board.getNo(), board.getContents(), board.getCreatedDate(), board.getViewCount()));
-    }
-    out.println("</table></body></html>");
+    response.setContentType("text/html;charset=UTF-8");
+
+    RequestDispatcher rd = request.getRequestDispatcher("/board/list.jsp");
+    rd.include(request, response);
   }
 
 }

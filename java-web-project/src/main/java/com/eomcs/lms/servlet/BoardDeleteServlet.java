@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,15 +28,10 @@ public class BoardDeleteServlet extends HttpServlet {
       return;
     }
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
+    request.setAttribute("error.title", "게시물 삭제");
+    request.setAttribute("error.content", "해당 번호의 게시물이 없습니다.");
 
-    out.println("<html><head>" + "<title>게시물 삭제</title>"
-        + "<meta http-equiv='Refresh' content='1;url=list'>" + "</head>");
-    out.println("<body><h1>게시물 삭제</h1>");
-
-    out.println("<p>해당 번호의 게시물이 없습니다.</p>");
-    out.println("</body></html>");
+    request.getRequestDispatcher("/error.jsp").forward(request, response);
   }
 
 }
