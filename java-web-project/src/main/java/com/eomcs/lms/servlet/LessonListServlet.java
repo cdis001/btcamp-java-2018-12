@@ -1,8 +1,9 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,24 +26,13 @@ public class LessonListServlet extends HttpServlet {
             .getBean(LessonService.class);
 
     List<Lesson> lessons = lessonService.list();
+    
+    request.setAttribute("list", lessons);
 
     response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    out.println("<html><head><title>수업 목록</title></head>");
-    out.println("<body>");
-    request.getRequestDispatcher("/header").include(request, response);
-    out.println("<h1>수업 목록</h1>");
-    out.println("<p><a href='/../java-web-project'>전체목록</a></p>");
-    out.println("<p><a href='add'>새로운 수업</a></p>");
-    out.println("<table border='1'>");
-    out.println("<tr> <th>번호</th> <th>제목</th> <th>시작일</th> <th>종료일</th> <th>총수업시간</th> </tr>");
-    for (Lesson lesson : lessons) {
-      out.println(String.format(
-          "<tr><td>%d</td> <td><a href='detail?no=%1$d'>%s</a></td> <td>%s</td> <td>%s</td> <td>%d</td> </tr>",
-          lesson.getNo(), lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(),
-          lesson.getTotalHours()));
-    }
+    
+    RequestDispatcher rd = request.getRequestDispatcher("/lesson/list.jsp");
+    rd.include(request, response);	
   }
 
 }

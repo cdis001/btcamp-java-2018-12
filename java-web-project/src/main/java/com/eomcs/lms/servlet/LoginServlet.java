@@ -1,7 +1,7 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.context.ApplicationContext;
+
 import com.eomcs.lms.domain.Member;
 import com.eomcs.lms.service.MemberService;
 
@@ -37,34 +39,9 @@ public class LoginServlet extends HttpServlet {
       }
     }
 
+    request.setAttribute("email", email);
     response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    out.println("<html>");
-    out.println("<head><title>로그인</title></head>");
-    out.println("<body>");
-    out.println("<h1>로그인</h1>");
-    out.println("<form action='login' method='post'>");
-    out.println("<table border='1'>");
-    out.println("<tr>");
-    out.println("  <th>이메일</th>");
-    out.printf("  <td><input type='email' name='email' value='%s'></td>\n", email);
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>암호</th>");
-    out.println("  <td><input type='password' name='password'></td>");
-    out.println("</tr>");
-    out.println("</table>");
-    out.println("<input type='checkbox' name='saveEmail' value='value'> 이메일 저장");
-    out.println("<p>");
-    out.println("  <button type='submit'>등록</button>");
-    out.println("  <a href='../'>목록</a>");
-    out.println("</p>");
-    out.println("</form>");
-    out.println("</body>");
-    out.println("</html>");
-
-
+    request.getRequestDispatcher("/auth/login.jsp").include(request, response);
   }
 
   @Override
@@ -91,14 +68,12 @@ public class LoginServlet extends HttpServlet {
         memberService.get(request.getParameter("email"), request.getParameter("password"));
 
     if (member == null) {
-      response.setHeader("Refresh", "2;url=login");
-      response.setContentType("text/html;charset=UTF-8");
-      PrintWriter out = response.getWriter();
+    	response.setContentType("text/html;charset=UTF-8");
+    	
+    	request.setAttribute("error.title", "로그인 실패");
+        request.setAttribute("error.content", "이메일 또는 암호가 맞지 않습니다.");
 
-      out.println("<html><head><title>로그인 실패</title></head><body>");
-      out.println("<h1>로그인 오류</h1>");
-      out.println("<p>이메일 또는 암호가 맞지 않습니다</p>");
-      out.println("</body></html>");
+        request.getRequestDispatcher("/error.jsp").forward(request, response);
       return;
     }
 

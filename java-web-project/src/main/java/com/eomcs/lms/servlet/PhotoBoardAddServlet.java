@@ -41,62 +41,15 @@ public class PhotoBoardAddServlet extends HttpServlet {
             .getBean(LessonService.class);
 
     response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    out.println("<html>");
-    out.println("<head><title>새 사진</title></head>");
-    out.println("<body>");
-    request.getRequestDispatcher("/header").include(request, response);
-    out.println("<h1>새 사진</h1>");
-    out.println("<form action='add' method='post' enctype='multipart/form-data'>");
-    out.println("<table border='1'>");
-    out.println("<tr>");
-    out.println("  <th>수업</th>");
-    out.println("  <td><select name='lessonNo'>");
-    out.println("   <option value='0'>수업을 선택하세요</opiton>");
 
     List<Lesson> lessons = lessonService.list();
-    for (Lesson lesson : lessons) {
-      out.printf("<option value='%d'>%s</option>", lesson.getNo(), lesson.getTitle());
-    }
+    
+    request.setAttribute("list", lessons);
+    
+    response.setContentType("text/html;charset=UTF-8");
 
-    out.println("  </select></td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>사진 제목</th>");
-    out.println("  <td><input name='title'></td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <td colspan='2'>최소 한 개의 사진 파일을 등록해야 합니다.</td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>사진1</th>");
-    out.println("  <td><input type='file' name='photo'></td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>사진2</th>");
-    out.println("  <td><input type='file' name='photo'></td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>사진3</th>");
-    out.println("  <td><input type='file' name='photo'></td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>사진4</th>");
-    out.println("  <td><input type='file' name='photo'></td>");
-    out.println("</tr>");
-    out.println("<tr>");
-    out.println("  <th>사진5</th>");
-    out.println("  <td><input type='file' name='photo'></td>");
-    out.println("</tr>");
-    out.println("</table>");
-    out.println("<p>");
-    out.println("  <button type='submit'>등록</button>");
-    out.println("  <a href='list'>목록</a>");
-    out.println("</p>");
-    out.println("</form>");
-    out.println("</body>");
-    out.println("</html>");
+    request.getRequestDispatcher("/photoboard/form.jsp").include(request, response);
+    
   }
 
   @Override

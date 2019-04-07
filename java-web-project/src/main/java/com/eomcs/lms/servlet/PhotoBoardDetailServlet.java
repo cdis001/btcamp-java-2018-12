@@ -34,10 +34,10 @@ public class PhotoBoardDetailServlet extends HttpServlet {
     int no = Integer.parseInt(request.getParameter("no"));
 
     PhotoBoard board = photoBoardService.get(no);
-    List<Lesson> lesson = lessonService.list();
+    List<Lesson> lessons = lessonService.list();
 
     request.setAttribute("board", board);
-    request.setAttribute("lesson", lesson);
+    request.setAttribute("lesson", lessons);
 
     response.setContentType("text/html;charset=UTF-8");
 

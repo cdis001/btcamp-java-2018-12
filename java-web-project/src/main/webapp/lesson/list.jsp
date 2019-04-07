@@ -1,51 +1,46 @@
-<%@page import="com.eomcs.lms.domain.Member"%>
+<%@page import="com.eomcs.lms.domain.Lesson"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
- trimDirectiveWhitespaces="true"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%
-  List<Member> list = (List<Member>) request.getAttribute("list");
+	List<Lesson> list = (List<Lesson>) request.getAttribute("list");
 %>
 <!DOCTYPE html>
 
 <html>
 <head>
-<title>회원 목록</title>
+<title>수업 목록</title>
 </head>
 <body>
- <jsp:include page="/header.jsp" />
- <h1>회원 목록(JSP)</h1>
- <p>
-  <a href='/../java-web-project'>전체목록</a>
- </p>
- <p>
-  <a href='add'>회원가입</a>
- </p>
- <table border='1'>
-  <tr>
-   <th>번호</th>
-   <th>이름</th>
-   <th>이메일</th>
-   <th>전화번호</th>
-   <th>가입일</th>
-  </tr>
-    <%
-    for (Member member : list) {
-  %>
-  <tr>
-   <td><%=member.getNo() %></td>
-   <td><a href='detail?no=<%=member.getNo() %>'><%=member.getName() %></a></td>
-   <td><%=member.getEmail() %></td>
-   <td><%=member.getTel() %></td>
-   <td><%=member.getRegisteredDate() %></td>
-  </tr>
-  <% } %>
-  <form action='search'>
-   <table border='1'>
-    <input type='text' name='keyword' value='' textarea>
-    </td>
-    </tr>
-    <button type='submit'>검색</button>
-    </form>
-   </table>
+	<jsp:include page="/header.jsp" />
+	<h1>수업 목록(JSP)</h1>
+	<p>
+		<a href='/../java-web-project'>전체목록</a>
+	</p>
+	<p>
+		<a href='add'>새로운 수업</a>
+	</p>
+	<table border='1'>
+		<tr>
+		    <th>번호</th>
+			<th>제목</th>
+			<th>시작일</th>
+			<th>종료일</th>
+			<th>총수업시간</th>
+		</tr>
+		<%
+			for (Lesson lesson : list) {
+		%>
+		<tr>
+			<td><%=lesson.getNo()%></td>
+			<td><a href='detail?no=<%=lesson.getNo()%>'><%=lesson.getTitle()%></a></td>
+			<td><%=lesson.getStartDate()%></td>
+			<td><%=lesson.getEndDate()%></td>
+			<td><%=lesson.getTotalHours() %></td>
+		</tr>
+		<%
+			}
+		%>
+			</table>
 </body>
 </html>
