@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -43,13 +42,11 @@ public class PhotoBoardAddServlet extends HttpServlet {
     response.setContentType("text/html;charset=UTF-8");
 
     List<Lesson> lessons = lessonService.list();
-    
+
     request.setAttribute("list", lessons);
-    
-    response.setContentType("text/html;charset=UTF-8");
 
     request.getRequestDispatcher("/photoboard/form.jsp").include(request, response);
-    
+
   }
 
   @Override
@@ -79,21 +76,20 @@ public class PhotoBoardAddServlet extends HttpServlet {
     }
     board.setFiles(files);
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-    out.println("<html><head>" + "<title>사진 등록</title>"
-        + "<meta http-equiv='Refresh' content='1;url=list'>" + "</head>");
-    out.println("<body><h1>사진 등록</h1>");
-
     if (board.getLessonNo() == 0) {
-      out.println("<p>사진 또는 파일을 등록할 수업을 선택하세요</p>");
+      request.setAttribute("error.title", "게시물 등록");
+      request.setAttribute("error.content", "해당 번호의 수업이 없습니다.");
     } else if (files.size() == 0) {
-      out.println("<p>최소 한 개의 사진 파일을 등록해야 합니다.</p>");
+      request.setAttribute("error.title", "게시물 등록");
+      request.setAttribute("error.content", "최소 한개의 사진을 등록해야 합니다.");
     } else {
-      photoBoardService.add(board);
-      out.println("<p>저장하였습니다.</p>");
+      response.sendRedirect("list");
+      return;
     }
-    out.println("</body></html>");
+
+    response.setContentType("text/html;charset=UTF-8");
+
+    photoBoardService.add(board);
   }
 
 }
