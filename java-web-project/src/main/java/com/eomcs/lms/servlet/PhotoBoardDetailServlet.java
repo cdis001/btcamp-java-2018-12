@@ -37,7 +37,7 @@ public class PhotoBoardDetailServlet extends HttpServlet {
     List<Lesson> lessons = lessonService.list();
 
     request.setAttribute("board", board);
-    request.setAttribute("lesson", lessons);
+    request.setAttribute("lessons", lessons);
 
     response.setContentType("text/html;charset=UTF-8");
 

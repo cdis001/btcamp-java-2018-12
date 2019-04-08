@@ -28,7 +28,7 @@ public class MemberSearchServlet extends HttpServlet {
     String keyword = request.getParameter("keyword");
     List<Member> members = memberService.list(keyword);
 
-    request.setAttribute("keyword", members);
+    request.setAttribute("list", members);
 
     RequestDispatcher rd = request.getRequestDispatcher("/member/search.jsp");
     rd.include(request, response);

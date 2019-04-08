@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%String email = (String) request.getAttribute("email"); %>
 <!DOCTYPE html>
 
 <html>
 <head><title>로그인</title></head>
 <body>
-<h1>로그인(JSP)</h1>
+<h1>로그인(JSP2)</h1>
+<jsp:useBean scope="request" id="email" type="java.lang.String"/>
 <form action='login' method='post'>
 <table border='1'>
 <tr>

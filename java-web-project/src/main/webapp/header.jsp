@@ -2,9 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
  trimDirectiveWhitespaces="true"%>
 <%
-Member loginUser = (Member) session.getAttribute("loginUser");
 String contextRootPath = application.getContextPath();
     %>
+<jsp:useBean scope="session" id="loginUser" type="com.eomcs.lms.domain.Member"/>
 <header>
  <img src='http://bitcamp.co.kr/img/logo.jpg' style='height: 50px'>
  <%if (loginUser == null) {%>

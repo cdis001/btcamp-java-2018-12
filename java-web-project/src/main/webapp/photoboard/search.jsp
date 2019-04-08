@@ -2,9 +2,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
  trimDirectiveWhitespaces="true"%>
-<%
-  List<PhotoBoard> list = (List<PhotoBoard>) request.getAttribute("list");
-%>
 <!DOCTYPE html>
 
 
@@ -14,8 +11,9 @@
 </head>
 <body>
  <jsp:include page="/header.jsp" />
- <h1>사진 검색 결과(JSP)</h1>
+ <h1>사진 검색 결과(JSP2)</h1>
  <table border='1'>
+   <jsp:useBean scope="request" id="list" type="java.util.List<PhotoBoard>"/>
   <tr>
    <th>번호</th>
    <th>제목</th>

@@ -2,10 +2,6 @@
 <%@page import="java.util.List"%>
 <%@page import="com.eomcs.lms.domain.PhotoBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-  PhotoBoard board = (PhotoBoard) request.getAttribute("board");
-  List<Lesson> list = (List<Lesson>) request.getAttribute("lesson");
-%>
 <!DOCTYPE html>
 
 
@@ -15,7 +11,9 @@
 </head>
 <body>
  <jsp:include page="/header.jsp" />
- <h1>사진 조회(JSP)</h1>
+ <h1>사진 조회(JSP2)</h1>
+ <jsp:useBean scope="request" id="board" type="com.eomcs.lms.domain.PhotoBoard"/>
+ <jsp:useBean scope="request" id="lessons" type="java.util.List<Lesson>"/>
  <form action='update' method='post' enctype='multipart/form-data'>
   <table border='1'>
    <tr>
@@ -39,7 +37,7 @@
     <td><select name='lessonNo'>
       <option value='0'>수업을 선택하세요</option>
       <%
-        for (Lesson lesson : list) {
+        for (Lesson lesson : lessons) {
       %>
 
       <option value='<%=lesson.getNo()%>'

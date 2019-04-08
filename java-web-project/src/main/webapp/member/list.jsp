@@ -2,9 +2,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
  trimDirectiveWhitespaces="true"%>
-<%
-  List<Member> list = (List<Member>) request.getAttribute("list");
-%>
 <!DOCTYPE html>
 
 <html>
@@ -28,6 +25,7 @@
    <th>전화번호</th>
    <th>가입일</th>
   </tr>
+    <jsp:useBean scope="request" id="list" type="java.util.List<Member>"/>
     <%
     for (Member member : list) {
   %>
