@@ -2,7 +2,6 @@ package com.eomcs.lms.servlet;
 
 import java.io.IOException;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,10 +28,7 @@ public class PhotoBoardListServlet extends HttpServlet {
     response.setContentType("text/html;charset=UTF-8");
     request.setAttribute("list", boards);
 
-    response.setContentType("text/html;charset=UTF-8");
-
-    RequestDispatcher rd = request.getRequestDispatcher("/photoboard/list.jsp");
-    rd.include(request, response);
+    request.setAttribute("viewUrl", "/photoboard/list.jsp");
   }
 
 }

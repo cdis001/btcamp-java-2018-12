@@ -13,23 +13,22 @@ import com.eomcs.lms.service.PhotoBoardService;
 @SuppressWarnings("serial")
 public class PhotoBoardDeleteServlet extends HttpServlet {
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-		PhotoBoardService photoBoardService =
-				((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
-				.getBean(PhotoBoardService.class);
+    PhotoBoardService photoBoardService =
+        ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
+            .getBean(PhotoBoardService.class);
 
-		int no = Integer.parseInt(request.getParameter("no"));
+    int no = Integer.parseInt(request.getParameter("no"));
 
-		if (photoBoardService.delete(no) > 0) {
-			response.sendRedirect("list");
-			return;
-		}
-		request.setAttribute("error.title", "게시물 삭제");
-		request.setAttribute("error.content", "해당 번호의 사진이 없습니다.");
-
-		request.getRequestDispatcher("/error.jsp").forward(request, response);
-	}
+    if (photoBoardService.delete(no) > 0) {
+      request.setAttribute("viewUrl", "redirect:list");
+      return;
+    } else {
+      request.setAttribute("error.title", "게시물 삭제");
+      request.setAttribute("error.content", "해당 번호의 사진이 없습니다.");
+    }
+  }
 }

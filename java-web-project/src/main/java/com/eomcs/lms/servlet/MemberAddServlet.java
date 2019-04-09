@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -23,8 +22,7 @@ public class MemberAddServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    response.setContentType("text/html;charset=UTF-8");
-    request.getRequestDispatcher("/member/form.jsp").include(request, response);
+    request.setAttribute("viewUrl", "/member/form.jsp");
   }
 
 
@@ -53,9 +51,7 @@ public class MemberAddServlet extends HttpServlet {
     }
     memberService.add(member);
 
-    PrintWriter out = response.getWriter();
-
-    response.sendRedirect("list");
+    request.setAttribute("viewUrl", "redirect:list");
   }
 
 

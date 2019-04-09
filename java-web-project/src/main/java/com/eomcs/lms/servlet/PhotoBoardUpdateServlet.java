@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import org.springframework.context.ApplicationContext;
-
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
 import com.eomcs.lms.service.PhotoBoardService;
@@ -38,8 +35,6 @@ public class PhotoBoardUpdateServlet extends HttpServlet {
         ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
             .getBean(PhotoBoardService.class);
 
-    response.setContentType("text/html;charset=UTF-8");
-
     PhotoBoard board = new PhotoBoard();
     board.setNo(Integer.parseInt(request.getParameter("no")));
     board.setTitle(request.getParameter("title"));
@@ -61,18 +56,13 @@ public class PhotoBoardUpdateServlet extends HttpServlet {
       files.add(file);
     }
     board.setFiles(files);
-    
+
     if (files.size() > 0) {
-        photoBoardService.update(board);
-        response.sendRedirect("list");
-        return;
-      }
-
-    	request.setAttribute("error.title", "사진 변경 오류");
-        request.setAttribute("error.content", "최소 한개의 사진을 등록해야 합니다.");
-        
-        request.getRequestDispatcher("/error.jsp").forward(request, response);
-
+      photoBoardService.update(board);
+      request.setAttribute("viewUrl", "redirect:list");
+    } else {
+      request.setAttribute("error.title", "사진 변경 오류");
+      request.setAttribute("error.content", "최소 한개의 사진을 등록해야 합니다.");
+    }
   }
-
 }

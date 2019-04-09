@@ -29,7 +29,6 @@ public class PhotoBoardDetailServlet extends HttpServlet {
     PhotoBoardService photoBoardService =
         ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
             .getBean(PhotoBoardService.class);
-    response.setContentType("text/html;charset=UTF-8");
 
     int no = Integer.parseInt(request.getParameter("no"));
 
@@ -37,12 +36,10 @@ public class PhotoBoardDetailServlet extends HttpServlet {
     List<Lesson> lessons = lessonService.list();
 
     request.setAttribute("board", board);
+    request.setAttribute("files", board.getFiles());
     request.setAttribute("lessons", lessons);
 
-    response.setContentType("text/html;charset=UTF-8");
-
-    // JSP의 실행을 포함시킨다.
-    request.getRequestDispatcher("/photoboard/detail.jsp").include(request, response);
+    request.setAttribute("viewUrl", "/photoboard/detail.jsp");
   }
 
 }

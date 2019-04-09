@@ -2,15 +2,15 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
  trimDirectiveWhitespaces="true"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-
 <html>
 <head>
 <title>사진 목록</title>
 </head>
 <body>
  <jsp:include page="/header.jsp" />
- <h1>사진 목록(JSP)</h1>
+ <h1>사진 목록(JSP + EL + JSTL)</h1>
  <p>
   <a href='/../java-web-project'>전체목록</a>
  </p>
@@ -25,16 +25,15 @@
    <th>조회수</th>
    <th>수업</th>
   </tr>
-   <jsp:useBean scope="request" id="list" type="java.util.List<PhotoBoard>"/>
-  <%for (PhotoBoard board : list) {%>
+  <c:forEach items="${list }" var="board">
   <tr>
-   <td><%=board.getNo() %></td>
-   <td><a href='detail?no=<%=board.getNo() %>'><%=board.getTitle() %></a></td>
-   <td><%=board.getCreatedDate() %></td>
-   <td><%=board.getViewCount() %></td>
-   <td><%=board.getLessonNo() %></td>
-  </tr>
-    <% } %>
+      <td>${board.no}</td>
+      <td><a href='detail?no=${board.no}'>${board.title}</a></td>
+      <td>${board.createdDate}</td>
+      <td>${board.viewCount}</td>
+      <td>${board.lessonNo}</td>
+    </tr>
+</c:forEach>
  </table>
  <form action='search'>
   수업번호: <input type='text' name='lessonNo'> 검색어: <input type='text' name='keyword'>

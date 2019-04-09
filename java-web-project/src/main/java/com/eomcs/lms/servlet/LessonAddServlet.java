@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +20,7 @@ public class LessonAddServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    response.setContentType("text/html;charset=UTF-8");
-    request.getRequestDispatcher("/lesson/form.jsp").include(request, response);
+    request.setAttribute("viewUrl", "/lesson/form.jsp");
 
   }
 
@@ -45,10 +43,7 @@ public class LessonAddServlet extends HttpServlet {
 
     lessonService.add(lesson);
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    response.sendRedirect("list");
+    request.setAttribute("viewUrl", "redirect:list");
   }
 
 }

@@ -39,13 +39,11 @@ public class PhotoBoardAddServlet extends HttpServlet {
         ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
             .getBean(LessonService.class);
 
-    response.setContentType("text/html;charset=UTF-8");
-
     List<Lesson> lessons = lessonService.list();
 
     request.setAttribute("list", lessons);
 
-    request.getRequestDispatcher("/photoboard/form.jsp").include(request, response);
+    request.setAttribute("viewUrl", "/photoboard/form.jsp");
 
   }
 
@@ -83,12 +81,9 @@ public class PhotoBoardAddServlet extends HttpServlet {
       request.setAttribute("error.title", "게시물 등록");
       request.setAttribute("error.content", "최소 한개의 사진을 등록해야 합니다.");
     } else {
-      response.sendRedirect("list");
+      request.setAttribute("viewUrl", "redirect:list");
       return;
     }
-
-    response.setContentType("text/html;charset=UTF-8");
-
     photoBoardService.add(board);
   }
 

@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +17,8 @@ public class BoardAddServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    request.getRequestDispatcher("/board/form.jsp").include(request, response);
+
+    request.setAttribute("viewUrl", "/board/form.jsp");
   }
 
   @Override
@@ -35,10 +34,7 @@ public class BoardAddServlet extends HttpServlet {
 
     boardService.add(board);
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    response.sendRedirect("list");
+    request.setAttribute("viewUrl", "redirect:list");
   }
 
 }

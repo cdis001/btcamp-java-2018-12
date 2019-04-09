@@ -2,16 +2,12 @@ package com.eomcs.lms.servlet;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.context.ApplicationContext;
-
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.service.PhotoBoardService;
 
@@ -26,7 +22,7 @@ public class PhotoBoardSearchServlet extends HttpServlet {
     PhotoBoardService photoBoardService =
         ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
             .getBean(PhotoBoardService.class);
-    
+
     response.setContentType("text/html;charset=UTF-8");
 
     int lessonNo = 0;
@@ -44,10 +40,9 @@ public class PhotoBoardSearchServlet extends HttpServlet {
     }
 
     List<PhotoBoard> boards = photoBoardService.list(lessonNo, searchWord);
-    
-    request.setAttribute("list", boards);
 
-    RequestDispatcher rd = request.getRequestDispatcher("/photoboard/search.jsp");
-    rd.include(request, response);
+    request.setAttribute("viewUrl", "/photoboard/list.jsp");
+
+    request.setAttribute("viewUrl", "/photoboard/search.jsp");
   }
 }

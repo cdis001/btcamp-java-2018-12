@@ -1,6 +1,7 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -25,20 +26,7 @@ public class LoginServlet extends HttpServlet {
     HttpSession session = request.getSession();
     session.setAttribute(REFERER_URL, request.getHeader("Referer"));
 
-    Cookie[] cookies = request.getCookies();
-    String email = "";
-    if (cookies != null) {
-      for (Cookie c : cookies) {
-        if (c.getName().equals("email")) {
-          email = c.getValue();
-          break;
-        }
-      }
-    }
-
-    request.setAttribute("email", email);
-    response.setContentType("text/html;charset=UTF-8");
-    request.getRequestDispatcher("/auth/login.jsp").include(request, response);
+    request.setAttribute("viewUrl", "/auth/login.jsp");
   }
 
   @Override
@@ -53,9 +41,10 @@ public class LoginServlet extends HttpServlet {
       cookie = new Cookie("email", "");
       cookie.setMaxAge(0);
     }
-    response.addCookie(cookie);
 
-    System.out.println(request.getHeader("Referer"));
+    ArrayList<Cookie> cookies = new ArrayList<Cookie>();
+    cookies.add(cookie);
+    request.setAttribute("cookies", cookies);
 
     MemberService memberService =
         ((ApplicationContext) this.getServletContext().getAttribute("iocContainer"))
@@ -65,12 +54,8 @@ public class LoginServlet extends HttpServlet {
         memberService.get(request.getParameter("email"), request.getParameter("password"));
 
     if (member == null) {
-      response.setContentType("text/html;charset=UTF-8");
-
       request.setAttribute("error.title", "로그인 실패");
       request.setAttribute("error.content", "이메일 또는 암호가 맞지 않습니다.");
-
-      request.getRequestDispatcher("/error.jsp").forward(request, response);
       return;
     }
 
@@ -82,9 +67,9 @@ public class LoginServlet extends HttpServlet {
     String refererUrl = (String) session.getAttribute(REFERER_URL);
 
     if (refererUrl == null) {
-      response.sendRedirect(getServletContext().getContextPath());
+      request.setAttribute("viewUrl", "redirect:" + getServletContext().getContextPath());
     } else {
-      response.sendRedirect(refererUrl);
+      request.setAttribute("viewUrl", "redirect:" + refererUrl);
     }
   }
 
