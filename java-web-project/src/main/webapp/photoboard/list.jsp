@@ -15,7 +15,7 @@
   <a href='/../java-web-project'>전체목록</a>
  </p>
  <p>
-  <a href='add'>새 사진</a>
+  <a href='form'>새 사진</a>
  </p>
  <table border='1'>
   <tr>

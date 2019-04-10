@@ -1,25 +1,21 @@
-<%@page import="com.eomcs.lms.domain.PhotoBoard"%>
-<%@page import="com.eomcs.lms.domain.Lesson"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<% List<Lesson> list = (List<Lesson>) request.getAttribute("list"); %>
-
 <html>
 <head><title>새 사진</title></head>
 <body>
 <jsp:include page="/header.jsp" />
-<h1>새 사진(JSP)</h1>
+<h1>새 사진(JSP2)</h1>
 <form action='add' method='post' enctype='multipart/form-data'>
 <table border='1'>
 <tr>
   <th>수업</th>
   <td><select name='lessonNo'>
-   <option value='0'>수업을 선택하세요</opiton>
-   <% for (Lesson lesson : list) {%>
-      <option value='<%=lesson.getNo()%>'><%=lesson.getTitle()%></option>
-   <%}%>
-  </select></td>
+        <option value='0'>수업을 선택하세요</option>
+        <c:forEach items="${lessons}" var="lesson">
+          <option value='${lesson.no}'>${lesson.title}(${lesson.startDate} ~ ${lesson.endDate})</option>
+        </c:forEach>
+      </select></td>
 </tr>
 <tr>
   <th>사진 제목</th>

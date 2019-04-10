@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import com.eomcs.lms.AppConfig;
 
 // @WebListener
@@ -14,10 +15,22 @@ public class ContextLoaderListener implements ServletContextListener {
 
   final static Logger logger = LogManager.getLogger(ContextLoaderListener.class);
 
+  static class WebAppConfig {
+    static ServletContext servletContext;
+
+    @Bean
+    public ServletContext servletContext() {
+      return servletContext;
+    }
+  }
+
   @Override
   public void contextInitialized(ServletContextEvent sce) {
+    WebAppConfig.servletContext = sce.getServletContext();
+
     logger.info("Spring IoC 컨테이너 준비");
-    ApplicationContext iocContainer = new AnnotationConfigApplicationContext(AppConfig.class);
+    ApplicationContext iocContainer =
+        new AnnotationConfigApplicationContext(AppConfig.class, WebAppConfig.class);
     printBeans(iocContainer);
 
     ServletContext sc = sce.getServletContext();

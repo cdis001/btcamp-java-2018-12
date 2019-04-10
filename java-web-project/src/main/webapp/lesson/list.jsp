@@ -16,7 +16,7 @@
   <a href='/../java-web-project'>전체목록</a>
  </p>
  <p>
-  <a href='add'>새로운 수업</a>
+  <a href='form'>새로운 수업</a>
  </p>
  <table border='1'>
   <tr>

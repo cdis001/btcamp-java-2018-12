@@ -38,7 +38,7 @@ public class AuthFilter implements Filter {
     if (pathInfo.endsWith("add") || pathInfo.endsWith("update") || pathInfo.endsWith("delete")) {
       Member loginUser = (Member) httpReq.getSession().getAttribute("loginUser");
       if (loginUser == null) {
-        httpResp.sendRedirect(contextRootPath + "/app/auth/login");
+        httpResp.sendRedirect(contextRootPath + "/app/auth/form");
         return;
       }
     }

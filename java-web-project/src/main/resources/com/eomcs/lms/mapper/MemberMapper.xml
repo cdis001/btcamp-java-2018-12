@@ -34,7 +34,6 @@
 	<select id="findByNo" resultMap="memberMap" parameterType="int">
 	select
 	<include refid="default-columns"/>,
-	 member_id,
 	 photo
   from
    lms_member
@@ -45,7 +44,6 @@
     <select id="findByEmailPassword" resultMap="memberMap" parameterType="map">
     select
     <include refid="default-columns"/>,
-     member_id,
      photo
   from
    lms_member
@@ -92,7 +90,7 @@
 	 <set>
      <if test="name != null">name = #{name},</if>
      <if test="email != null">email = #{email},</if>
-     <if test="password != null">pwd = #{password},</if>
+     <if test="password != null">pwd = password(#{password}),</if>
      <if test="photo != null">photo = #{photo},</if>
      <if test="tel != null">tel = #{tel},</if>
      </set>

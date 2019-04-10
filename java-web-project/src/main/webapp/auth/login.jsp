@@ -19,7 +19,7 @@
 <input type='checkbox' name='saveEmail' value='value'> 이메일 저장
 <p>
   <button type='submit'>등록</button>
-  <a href='../'>목록</a>
+  <a href='../../'>목록</a>
 </p>
 </form>
 </body>
