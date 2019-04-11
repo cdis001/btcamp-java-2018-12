@@ -8,8 +8,8 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.eomcs.lms.context.RequestMapping;
-import com.eomcs.lms.context.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.eomcs.lms.domain.Member;
 import com.eomcs.lms.service.MemberService;
 
@@ -22,26 +22,18 @@ public class MemberController {
   @Autowired
   ServletContext servletContext;
 
+  @RequestMapping("/member/form")
   public String form() {
     return "/member/form.jsp";
   }
 
   @RequestMapping("/member/add")
-  public String add(@RequestParam("name") String name, @RequestParam("email") String email,
-      @RequestParam("password") String password, @RequestParam("tel") String tel,
-      @RequestParam("photo") Part photo) throws Exception {
+  public String add(Member member, @RequestParam("photoFile") Part photoFile) throws Exception {
 
-    Member member = new Member();
-
-    member.setName(name);
-    member.setEmail(email);
-    member.setPassword(password);
-    member.setTel(tel);
-
-    if (photo.getSize() > 0) {
+    if (photoFile.getSize() > 0) {
       String filename = UUID.randomUUID().toString();
       String uploadDir = servletContext.getRealPath("/upload/member");
-      photo.write(uploadDir + "/" + filename);
+      photoFile.write(uploadDir + "/" + filename);
       member.setPhoto(filename);
     }
     memberService.add(member);
@@ -89,21 +81,12 @@ public class MemberController {
   }
 
   @RequestMapping("/member/update")
-  public String update(@RequestParam("no") int no, @RequestParam("name") String name,
-      @RequestParam("email") String email, @RequestParam("password") String password,
-      @RequestParam("tel") String tel, @RequestParam("photo") Part photo) throws Exception {
+  public String update(Member member, @RequestParam("photoFile") Part photoFile) throws Exception {
 
-    Member member = new Member();
-    member.setNo(no);
-    member.setName(name);
-    member.setEmail(email);
-    member.setPassword(password);
-    member.setTel(tel);
-
-    if (photo.getSize() > 0) {
+    if (photoFile.getSize() > 0) {
       String filename = UUID.randomUUID().toString();
       String uploadDir = servletContext.getRealPath("/upload/member");
-      photo.write(uploadDir + "/" + filename);
+      photoFile.write(uploadDir + "/" + filename);
       member.setPhoto(filename);
     }
 
