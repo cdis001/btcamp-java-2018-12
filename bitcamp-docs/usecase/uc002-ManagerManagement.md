@@ -7,7 +7,7 @@
 ## 보조 액터(Secondary Actor)
 
 ## 사전 조건(Preconditions)
-- 관리자로 로그인 되어 있다.
+- 관리자로 로그인 되어 있다. 
 
 ## 종료 조건(Postconditions)
 - 매니저를 등록하였다.
