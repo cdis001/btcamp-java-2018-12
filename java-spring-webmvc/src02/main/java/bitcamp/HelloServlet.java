@@ -11,15 +11,24 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @WebServlet("/hello")
 public class HelloServlet extends HttpServlet {
-
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+  protected void doGet(
+      HttpServletRequest request, 
+      HttpServletResponse response)
       throws ServletException, IOException {
-
-    resp.setContentType("text/plain;charset=UTF-8");
-    PrintWriter out = resp.getWriter();
-
-    out.println("Hello, World!");
-
+    
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+    
+    out.println("<!DOCTYPE html>");
+    out.println("<html><head><title>hello</title></head>");
+    out.println("<body><h1>Hello</h1></body></html>");
   }
 }
+
+
+
+
+
+
+
