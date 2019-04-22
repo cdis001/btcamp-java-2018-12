@@ -8,5 +8,7 @@
 </head>
 <body>
 <h1>/WEB-INF/jsp2/c01_1/h2.jsp</h1>
+이름: ${name }
+나이: ${age }
 </body>
 </html>
