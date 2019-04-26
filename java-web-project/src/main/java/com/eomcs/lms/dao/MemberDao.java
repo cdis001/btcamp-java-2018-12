@@ -8,7 +8,7 @@ import com.eomcs.lms.domain.Member;
 public interface MemberDao {
   int insert(Member member);
 
-  List<Member> findAll();
+  List<Member> findAll(Map<String, Object> params);
 
   List<Member> findBykeyword(String keyword);
 
@@ -19,6 +19,8 @@ public interface MemberDao {
   int update(Member member);
 
   int delete(int no);
+
+  int countAll();
 }
 
 

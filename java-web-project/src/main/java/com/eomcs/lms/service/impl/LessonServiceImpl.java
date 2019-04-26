@@ -17,9 +17,7 @@ public class LessonServiceImpl implements LessonService {
   PhotoBoardDao photoBoardDao;
   PhotoFileDao photoFileDao;
 
-  public LessonServiceImpl(
-      LessonDao lessonDao,
-      PhotoBoardDao photoBoardDao,
+  public LessonServiceImpl(LessonDao lessonDao, PhotoBoardDao photoBoardDao,
       PhotoFileDao photoFileDao) {
     this.lessonDao = lessonDao;
     this.photoBoardDao = photoBoardDao;
@@ -27,8 +25,11 @@ public class LessonServiceImpl implements LessonService {
   }
 
   @Override
-  public List<Lesson> list() {
-    return lessonDao.findAll();
+  public List<Lesson> list(int pageNo, int pageSize) {
+    HashMap<String, Object> params = new HashMap<String, Object>();
+    params.put("size", pageSize);
+    params.put("rowNo", (pageNo - 1) * pageSize);
+    return lessonDao.findAll(params);
   }
 
   @Override
@@ -60,6 +61,11 @@ public class LessonServiceImpl implements LessonService {
 
     return lessonDao.delete(no);
 
+  }
+
+  @Override
+  public int size() {
+    return lessonDao.countAll();
   }
 
 }

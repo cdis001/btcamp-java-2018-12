@@ -21,12 +21,16 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
   }
 
   @Override
-  public List<PhotoBoard> list(int lessonNo, String searchWord) {
+  public List<PhotoBoard> list(int lessonNo, String searchWord, int pageNo, int pageSize) {
+
+
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("size", pageSize);
+    params.put("rowNo", (pageNo - 1) * pageSize);
 
     if (lessonNo <= 0 && searchWord == null) {
-      return boardDao.findAll(null);
+      return boardDao.findAll(params);
     } else {
-      HashMap<String, Object> params = new HashMap<>();
       if (lessonNo > 0) {
         params.put("lessonNo", lessonNo);
       }
@@ -81,6 +85,11 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
 
     fileDao.deleteByPhotoBoardNo(no);
     return boardDao.delete(no);
+  }
+
+  @Override
+  public int size() {
+    return boardDao.countAll();
   }
 
 }

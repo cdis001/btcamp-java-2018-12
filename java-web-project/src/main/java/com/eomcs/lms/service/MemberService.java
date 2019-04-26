@@ -4,7 +4,7 @@ import java.util.List;
 import com.eomcs.lms.domain.Member;
 
 public interface MemberService {
-  List<Member> list(String searchWord);
+  List<Member> list(String searchWord, int pageNo, int pageSize);
 
   int add(Member board);
 
@@ -15,4 +15,6 @@ public interface MemberService {
   int update(Member board);
 
   int delete(int no);
+
+  int size();
 }

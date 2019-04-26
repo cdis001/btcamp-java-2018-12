@@ -82,7 +82,7 @@
 	</delete>
   
   <select id="countAll" resultType="int">
-    select count(*) from lms_board
+    select count(*) from lms_lesson
   </select>
 	
 </mapper>

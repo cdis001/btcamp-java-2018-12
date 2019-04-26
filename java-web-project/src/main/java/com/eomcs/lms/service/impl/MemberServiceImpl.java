@@ -17,10 +17,13 @@ public class MemberServiceImpl implements MemberService {
   }
 
   @Override
-  public List<Member> list(String searchWord) {
+  public List<Member> list(String searchWord, int pageNo, int pageSize) {
 
     if (searchWord == null) {
-      return memberDao.findAll();
+      HashMap<String, Object> params = new HashMap<String, Object>();
+      params.put("size", pageSize);
+      params.put("rowNo", (pageNo - 1) * pageSize);
+      return memberDao.findAll(params);
     } else {
       return memberDao.findBykeyword(searchWord);
     }
@@ -52,6 +55,11 @@ public class MemberServiceImpl implements MemberService {
     paramMap.put("email", email);
     paramMap.put("password", password);
     return memberDao.findByEmailPassword(paramMap);
+  }
+
+  @Override
+  public int size() {
+    return memberDao.countAll();
   }
 
 }

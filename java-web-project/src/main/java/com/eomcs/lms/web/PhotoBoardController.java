@@ -80,14 +80,14 @@ public class PhotoBoardController {
     if (photoBoardService.delete(no) == 0) {
       throw new Exception("해당 번호의 사진이 없습니다.");
     }
-    return "redirect:.";
+    return "redirect:../";
   }
 
   @GetMapping("{no}")
   public String detail(@PathVariable int no, Model model) throws Exception {
 
     PhotoBoard board = photoBoardService.get(no);
-    List<Lesson> lessons = lessonService.list(0, 0);
+    List<Lesson> lessons = lessonService.list(1, 100);
 
     model.addAttribute("board", board);
     model.addAttribute("lessons", lessons);
@@ -96,10 +96,29 @@ public class PhotoBoardController {
   }
 
   @GetMapping
-  public String list(Model model) throws Exception {
-    List<PhotoBoard> boards = photoBoardService.list(0, null);
+  public String list(@RequestParam(defaultValue = "1") int pageNo,
+      @RequestParam(defaultValue = "3") int pageSize, Model model) throws Exception {
+    if (pageSize < 3 || pageSize > 8)
+      pageSize = 3;
+
+    int rowCount = photoBoardService.size();
+    int totalPage = rowCount / pageSize;
+    if (rowCount % pageSize > 0)
+      totalPage++;
+
+    if (pageNo < 1)
+      pageNo = 1;
+    else if (pageNo > totalPage)
+      pageNo = totalPage;
+
+    List<PhotoBoard> boards = photoBoardService.list(0, null, pageNo, pageSize);
 
     model.addAttribute("list", boards);
+    model.addAttribute("pageNo", pageNo);
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("totalPage", totalPage);
+
+
 
     return "photoboard/list";
   }
@@ -114,7 +133,7 @@ public class PhotoBoardController {
     } catch (Exception e) {
     }
 
-    List<PhotoBoard> boards = photoBoardService.list(lessonNo, searchWord);
+    List<PhotoBoard> boards = photoBoardService.list(lessonNo, searchWord, 0, 100);
     model.addAttribute("list", boards);
     return "photoboard/search";
   }
