@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex06</title>
+</head>
+<body>
+<h1>이벤트 - 프로그래밍으로 이벤트 발생시키기</h1>
+<p>a 태그의 링크를 클릭하면 href에 등록한 URL을 요청하는 것이 a태그의 기본 동작이다.</p>
+<a id="link1" href="http://www.daum.net" onclick="alert('OK!')">a태그 기본 동작 계속</a><br>
+<a id="link2" href="http://www.daum.net" onclick="alert('OK2!'); return false;">a태그 기본 동작 취소 1</a><br>
+<a id="link3" href="http://www.daum.net" onclick="return f1()">a태그 기본 동작 취소 2</a><br>
+<a id="link4" href="http://www.daum.net">a태그 기본 동작 취소 3</a><br>
+<a id="link5" href="http://www.daum.net">a태그 기본 동작 취소 4</a><br>
+
+<script>
+"use strict"
+
+function f1() {
+	alert('OK3!');
+	return false;
+}
+
+documemt.querySelector("#form2").onsubmit = () => {
+	return false;
+}
+
+documemt.querySelector("#form3").onsubmit = (e) => {
+    e.preventDefault();
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
