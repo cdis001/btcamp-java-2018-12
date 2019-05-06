@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+  <meta charset="UTF-8">
+<title>새 수업</title>
+  <link rel="stylesheet" href="/java-web-project/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/java-web-project/css/header.css">
+  <link rel="stylesheet" href="/java-web-project/css/common.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<header class="bit-main-header"></header>
+
+ <div class="container">
+ <h1>새 수업</h1>
+<p><a href='view.html' class="btn btn-primary btn-sm">새 글</a></p>
+
+<div class="bit-list">
+<table class="table table-hover">
+<thead>
+  <tr> 
+    <th scope="col">수업 제목</th>
+    <th scope="col">내용</th>
+    <th scope="col">시작일</th>
+    <th scope="col">종료일</th>
+    <th scope="col">종료일</th>
+    <th scope="col">총 교육시간</th>
+    <th scope="col">일 교육시간</th>
+  </tr>
+</thead>
+<tbody></tbody>
+</table>
+</div><!-- .bit-list -->
+
+  <c:forEach items="${list}" var="lesson">
+     <tr>
+      <th scoop="row">${lesson.no}</th>
+      <td><a href='./${lesson.no}'>${lesson.title}</a></td>
+      <td>${lesson.startDate}</td>
+      <td>${lesson.endDate}</td>
+      <td>${lesson.totalHours}</td>
+     </tr>
+    </c:forEach>
+   </tbody>
+  </table>
+  <nav aria-label="목록 페이지 이동">
+   <ul class="pagination justify-content-center">
+    <li class="page-item ${pageNo <= 1 ? 'disabled' : ''}"><a class="page-link"
+     href="?pageNo=${pageNo - 1}&pageSize=${pageSize}">이전</a></li>
+    <li class="page-item active"><span class="page-link">${pageNo}</span></li>
+    <li class="page-item ${pageNo >= totalPage ? 'disabled' : ''}"><a class="page-link"
+     href="?pageNo=${pageNo + 1}&pageSize=${pageSize}">다음</a></li>
+   </ul>
+  </nav>
+ </div><!-- .container -->
+<script src="/java-web-project/node_modules/jquery/dist/jquery.slim.min.js"></script>
+<script src="/java-web-project/node_modules/popper.js/dist/umd/popper.min.js"></script>
+<script src="/java-web-project/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../header.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
+
+
