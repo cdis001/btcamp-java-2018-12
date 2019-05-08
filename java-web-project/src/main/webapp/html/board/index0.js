@@ -17,12 +17,26 @@ function loadList(pn) {
 
     // TR 태그를 생성하여 테이블 데이터를 갱신한다.
     tbody.html('');
-    
-    var templateSrc = $('#tr-template').html();
-    
-    var trGenerator = Handlebars.compile(templateSrc);
-    
-    $(trGenerator(obj)).appendTo(tbody);
+    for (data of obj.list) {
+      /*
+      var tr = $('<tr>');
+      var th = $('<th>');
+      th.attr('scope', 'row');
+      th.html(data.no);
+      tr.append(th);
+      */
+      
+      $('<tr>')
+      .append($('<th>').attr('scope', 'row').html(data.no))
+      .append($('<td>').append(
+              $('<a>').addClass('bit-view-link')
+              .attr('href', '#')
+              .attr('data-no', data.no)
+              .html(data.contents)))
+      .append($('<td>').html(data.createdDate))
+      .append($('<td>').html(data.viewCount))
+      .appendTo(tbody);
+    }
 
     // 현재 페이지의 번호를 갱신한다.
     currSpan.html(String(pageNo));
