@@ -12,6 +12,8 @@ public interface MemberService {
 
   Member get(String email, String password);
 
+  Member get(String email);
+
   int update(Member board);
 
   int delete(int no);

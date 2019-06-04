@@ -16,6 +16,8 @@ public interface MemberDao {
 
   Member findByEmailPassword(Map<String, Object> paramMap);
 
+  Member findByEmail(String email);
+
   int update(Member member);
 
   int delete(int no);

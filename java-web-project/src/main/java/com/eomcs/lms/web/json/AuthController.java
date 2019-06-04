@@ -1,6 +1,8 @@
 package com.eomcs.lms.web.json;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.service.FacebookService;
 import com.eomcs.lms.service.MemberService;
 
 @RestController("json/AuthController")
@@ -25,6 +28,8 @@ public class AuthController {
 
   @Autowired
   MemberService memberService;
+  @Autowired
+  FacebookService facebookService;
   @Autowired
   ServletContext servletContext;
 
@@ -87,6 +92,33 @@ public class AuthController {
 
     return content;
   }
+
+  @SuppressWarnings("rawtypes")
+  @GetMapping("fblogin")
+  public Object fblogin(String accessToken, HttpServletResponse response, HttpSession session)
+      throws Exception {
+
+    Map fbLoginUser = facebookService.getLoginUser(accessToken);
+    Member member = memberService.get((String) fbLoginUser.get("email"));
+
+    if (member == null) {
+      member = new Member();
+      member.setEmail((String) fbLoginUser.get("email"));
+      member.setName((String) fbLoginUser.get("name"));
+      member.setPassword(UUID.randomUUID().toString());
+
+      memberService.add(member);
+    }
+
+    session.setAttribute("loginUser", member);
+
+    HashMap<String, Object> content = new HashMap<>();
+    content.put("status", "success");
+    content.put("member", member);
+    return content;
+  }
+
+
 }
 
 
