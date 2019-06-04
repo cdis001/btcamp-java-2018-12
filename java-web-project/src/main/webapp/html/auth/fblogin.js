@@ -3,7 +3,8 @@ function autoServerLogin(accessToken) {
     $.getJSON('../../app/json/auth/fblogin', {
       "accessToken": accessToken
     }, (data) => {
-      console.log(data);
+      //console.log(data);
+      location-href = "../index.html";
     })
 }
 
