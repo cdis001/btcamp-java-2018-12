@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation platform('software.amazon.awssdk:bom:2.5.60')
+    implementation group: 'software.amazon.awssdk', name: 's3'
+    implementation 'com.google.guava:guava:26.0-jre'
+    testImplementation 'junit:junit:4.12'
+}
+
